@@ -3,7 +3,7 @@
     "name": "restMenus",
     "slug": "restMenus",
     "version": "1.0.0",
-    "orientation": "portrait",
+    "orientation": "landscape",
     "icon": "./assets/images/icon.png",
     "scheme": "restmenus",
     "userInterfaceStyle": "automatic",
