@@ -1,6 +1,8 @@
 import { useMemo, useState } from "react";
 import { SafeAreaView, View } from "react-native";
 
+import { useResponsive } from "../../hooks/useResponsive";
+
 import { products } from "../../data/products";
 import { categories } from "../../data/categories";
 
@@ -13,6 +15,18 @@ import FloatingOrderButton from "./FloatingOrderButton";
 export default function MenuScreen() {
   const [selectedCategory, setSelectedCategory] = useState("cocktails");
   const [order, setOrder] = useState([]);
+
+  const {
+    isLandscape,
+    isTablet,
+    sidebarWidth,
+    columns,
+    cardWidth,
+    cardHeight,
+    gap,
+  } = useResponsive();
+
+  const showSidebar = isTablet && isLandscape;
 
   const filteredProducts = useMemo(() => {
     return products.filter((item) => item.categoryId === selectedCategory);
@@ -39,22 +53,33 @@ export default function MenuScreen() {
   return (
     <SafeAreaView className="flex-1 bg-[#f5ead7]">
       <View className="flex-1 flex-row">
-        <MenuSidebar
-          categories={categories}
-          selectedCategory={selectedCategory}
-          onSelectCategory={setSelectedCategory}
-        />
-
-        <View className="flex-1 px-6 py-4">
-          <MenuHeader />
-
-          <CategoryTabs
+        {showSidebar && (
+          <MenuSidebar
+            width={sidebarWidth}
             categories={categories}
             selectedCategory={selectedCategory}
             onSelectCategory={setSelectedCategory}
           />
+        )}
 
-          <MenuGrid products={filteredProducts} onAddToOrder={addToOrder} />
+        <View className="flex-1 px-6 py-4">
+          <MenuHeader />
+
+          {!showSidebar && (
+            <CategoryTabs
+              categories={categories}
+              selectedCategory={selectedCategory}
+              onSelectCategory={setSelectedCategory}
+            />
+          )}
+
+          <MenuGrid
+            products={filteredProducts}
+            cardWidth={cardWidth}
+            cardHeight={cardHeight}
+            gap={gap}
+            onAddToOrder={addToOrder}
+          />
         </View>
 
         <FloatingOrderButton totalItems={totalItems} />

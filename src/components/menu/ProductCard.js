@@ -1,28 +1,41 @@
 import { View, Text, Image, Pressable } from "react-native";
 
-export default function ProductCard({ product, onAddToOrder }) {
+export default function ProductCard({
+  product,
+  width,
+  height,
+  onAddToOrder,
+}) {
+  const imageHeight = height > 430 ? 170 : 130;
+
   return (
     <View
-      className={`w-64 h-[520px] border-2 border-zinc-900 p-4 justify-between ${product.colorClass}`}
+      style={{ width, height }}
+      className={`border-2 border-zinc-900 p-4 justify-between ${product.colorClass}`}
     >
       <View>
         <View className="flex-row justify-between items-start gap-2">
           <Text
             numberOfLines={2}
-            className={`flex-1 text-3xl font-black uppercase leading-8 ${product.textClass}`}
+            adjustsFontSizeToFit
+            className={`flex-1 text-2xl font-black uppercase ${product.textClass}`}
           >
             {product.name}
           </Text>
 
-          <Text className="bg-zinc-900 text-white text-[9px] font-black px-2 py-1">
+          <Text className="bg-zinc-900 text-white text-[8px] font-black px-2 py-1">
             EST. {product.year}
           </Text>
         </View>
 
         <Image
           source={product.image}
-          className="w-full h-48 mt-10"
-          resizeMode="cover"
+          style={{
+            width: "100%",
+            height: imageHeight,
+          }}
+          className="mt-8"
+          resizeMode="contain"
         />
       </View>
 
@@ -32,14 +45,15 @@ export default function ProductCard({ product, onAddToOrder }) {
         <View className="flex-row justify-between items-start">
           <View className="flex-1 pr-3">
             <Text
-              className={`text-[10px] font-black uppercase tracking-widest ${product.textClass}`}
+              numberOfLines={1}
+              className={`text-[9px] font-black uppercase tracking-widest ${product.textClass}`}
             >
               {product.ingredients}
             </Text>
 
             <Text
               numberOfLines={2}
-              className={`text-xs italic mt-2 leading-4 ${product.textClass}`}
+              className={`text-[11px] italic mt-2 leading-4 ${product.textClass}`}
             >
               {product.description}
             </Text>
@@ -52,7 +66,7 @@ export default function ProductCard({ product, onAddToOrder }) {
 
         <Pressable
           onPress={() => onAddToOrder(product)}
-          className={`mt-5 py-3 items-center active:scale-95 ${product.buttonClass}`}
+          className={`mt-4 py-3 items-center active:scale-95 ${product.buttonClass}`}
         >
           <Text
             className={`text-[10px] font-black tracking-widest uppercase ${product.buttonTextClass}`}
@@ -61,7 +75,6 @@ export default function ProductCard({ product, onAddToOrder }) {
           </Text>
         </Pressable>
       </View>
-      
     </View>
   );
 }

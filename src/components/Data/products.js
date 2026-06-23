@@ -41,4 +41,45 @@ export const products = [
     buttonTextClass: "text-green-900"
 
   },
+  {
+    id: "4",
+    categoryId: "cocktails",
+    name: "Martini",
+    year: "1860",
+    ingredients: "Gin · Vermouth · Olives",
+    description: "A sharp sophisticated classic.",
+    price: 150,
+    colorClass: "bg-green-900",
+    textClass: "text-white",
+    buttonClass: "bg-white",
+    buttonTextClass: "text-green-900"
+  },
+  {
+    id: "5",
+    categoryId: "cocktails",
+    name: "Martini",
+    year: "1860",
+    ingredients: "Gin · Vermouth · Olives",
+    description: "A sharp sophisticated classic.",
+    price: 150,
+    colorClass: "bg-green-900",
+    textClass: "text-white",
+    buttonClass: "bg-white",
+    buttonTextClass: "text-green-900"
+
+  },
+  {
+    id: "6",
+    categoryId: "cocktails",
+    name: "Martini",
+    year: "1860",
+    ingredients: "Gin · Vermouth · Olives",
+    description: "A sharp sophisticated classic.",
+    price: 150,
+    colorClass: "bg-green-900",
+    textClass: "text-white",
+    buttonClass: "bg-white",
+    buttonTextClass: "text-green-900"
+
+  },
 ];

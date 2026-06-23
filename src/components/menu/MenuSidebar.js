@@ -1,12 +1,16 @@
 import { View, Text, Pressable } from "react-native";
 
 export default function MenuSidebar({
+  width,
   categories,
   selectedCategory,
   onSelectCategory,
 }) {
   return (
-    <View className="w-20 bg-zinc-950 border-r-2 border-yellow-500 items-center justify-between py-6">
+    <View
+      style={{ width }}
+      className="bg-zinc-950 border-r-2 border-yellow-500 items-center justify-between py-6"
+    >
       <Text className="text-yellow-400 font-black text-xl">☰</Text>
 
       <View className="gap-8 items-center">
