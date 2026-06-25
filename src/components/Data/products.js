@@ -82,4 +82,102 @@ export const products = [
     buttonTextClass: "text-green-900"
 
   },
+  {
+    id: "7",
+    categoryId: "cocktails",
+    name: "Martini",
+    year: "1860",
+    ingredients: "Gin · Vermouth · Olives",
+    description: "A sharp sophisticated classic.",
+    price: 150,
+    colorClass: "bg-green-900",
+    textClass: "text-white",
+    buttonClass: "bg-white",
+    buttonTextClass: "text-green-900"
+
+  },
+  {
+    id: "8",
+    categoryId: "cocktails",
+    name: "Martini",
+    year: "1860",
+    ingredients: "Gin · Vermouth · Olives",
+    description: "A sharp sophisticated classic.",
+    price: 150,
+    colorClass: "bg-green-900",
+    textClass: "text-white",
+    buttonClass: "bg-white",
+    buttonTextClass: "text-green-900"
+
+  },
+  {
+    id: "9",
+    categoryId: "cocktails",
+    name: "Martini",
+    year: "1860",
+    ingredients: "Gin · Vermouth · Olives",
+    description: "A sharp sophisticated classic.",
+    price: 150,
+    colorClass: "bg-green-900",
+    textClass: "text-white",
+    buttonClass: "bg-white",
+    buttonTextClass: "text-green-900"
+
+  },
+  {
+    id: "10",
+    categoryId: "cocktails",
+    name: "Martini",
+    year: "1860",
+    ingredients: "Gin · Vermouth · Olives",
+    description: "A sharp sophisticated classic.",
+    price: 150,
+    colorClass: "bg-green-900",
+    textClass: "text-white",
+    buttonClass: "bg-white",
+    buttonTextClass: "text-green-900"
+
+  },
+  {
+    id: "11",
+    categoryId: "cocktails",
+    name: "Martini",
+    year: "1860",
+    ingredients: "Gin · Vermouth · Olives",
+    description: "A sharp sophisticated classic.",
+    price: 150,
+    colorClass: "bg-green-900",
+    textClass: "text-white",
+    buttonClass: "bg-white",
+    buttonTextClass: "text-green-900"
+
+  },
+  {
+    id: "12",
+    categoryId: "cocktails",
+    name: "Martini",
+    year: "1860",
+    ingredients: "Gin · Vermouth · Olives",
+    description: "A sharp sophisticated classic.",
+    price: 150,
+    colorClass: "bg-green-900",
+    textClass: "text-white",
+    buttonClass: "bg-white",
+    buttonTextClass: "text-green-900"
+
+  },
+  {
+    id: "13",
+    categoryId: "cocktails",
+    name: "Martini",
+    year: "1860",
+    ingredients: "Gin · Vermouth · Olives",
+    description: "A sharp sophisticated classic.",
+    price: 150,
+    colorClass: "bg-green-900",
+    textClass: "text-white",
+    buttonClass: "bg-white",
+    buttonTextClass: "text-green-900"
+
+  },
 ];

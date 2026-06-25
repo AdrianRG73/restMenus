@@ -1,20 +1,28 @@
 import { useMemo, useState } from "react";
-import { SafeAreaView, View } from "react-native";
+import { View } from "react-native";
+
+import { useResponsive } from "../hooks/useResponsive";
 
 import { products } from "../components/Data/products";
 import { categories } from "../components/Data/categories";
 
 import MenuHeader from "../components/menu/MenuHeader";
 import MenuSidebar from "../components/menu/MenuSidebar";
-import CategoryTabs from "../components/menu/CategoryTabs";
 import MenuGrid from "../components/menu/MenuGrid";
 import FloatingOrderButton from "../components/menu/FloatingOrderButton";
-import LanguageButton from "../components/menu/LanguageButton";
-import { ScrollView } from "react-native-web";
 
 export default function MenuScreen() {
   const [selectedCategory, setSelectedCategory] = useState("cocktails");
   const [order, setOrder] = useState([]);
+
+  const {
+    isLandscape,
+    isTablet,
+    cardWidth,
+    cardHeight,
+    columns,
+    gap,
+  } = useResponsive();
 
   const filteredProducts = useMemo(() => {
     return products.filter((item) => item.categoryId === selectedCategory);
@@ -39,19 +47,27 @@ export default function MenuScreen() {
   const totalItems = order.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
-      <View className="flex-1 flex-row">
-        <MenuSidebar
-          categories={categories}
-          selectedCategory={selectedCategory}
-          onSelectCategory={setSelectedCategory}
+    <View className="flex-1 flex-row bg-[#f5ead7]">
+      <MenuSidebar
+        categories={categories}
+        selectedCategory={selectedCategory}
+        onSelectCategory={setSelectedCategory}
+      />
+
+      <View className="flex-1 px-6 py-4">
+        <MenuHeader />
+
+        <MenuGrid
+          products={filteredProducts}
+          columns={columns}
+          cardWidth={cardWidth}
+          cardHeight={cardHeight}
+          gap={gap}
+          onAddToOrder={addToOrder}
         />
-
-        <View className="flex-1 px-6 py-4">
-          <MenuHeader />
-          <MenuGrid products={filteredProducts} onAddToOrder={addToOrder} />
-        </View>
-
-        <FloatingOrderButton totalItems={totalItems} />
       </View>
+
+      <FloatingOrderButton totalItems={totalItems} />
+    </View>
   );
 }

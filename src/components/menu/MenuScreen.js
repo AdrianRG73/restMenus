@@ -20,14 +20,14 @@ export default function MenuScreen() {
     isLandscape,
     isTablet,
     sidebarWidth,
-    columns,
     cardWidth,
     cardHeight,
+    columns,
     gap,
   } = useResponsive();
 
   const showSidebar = isTablet && isLandscape;
-
+  
   const filteredProducts = useMemo(() => {
     return products.filter((item) => item.categoryId === selectedCategory);
   }, [selectedCategory]);
@@ -75,6 +75,7 @@ export default function MenuScreen() {
 
           <MenuGrid
             products={filteredProducts}
+            columns={columns}
             cardWidth={cardWidth}
             cardHeight={cardHeight}
             gap={gap}
