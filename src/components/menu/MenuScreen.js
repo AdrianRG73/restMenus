@@ -3,6 +3,7 @@ import { View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { useResponsive } from "../../hooks/useResponsive";
+import { useOrder } from "../../hooks/useOrder";
 
 import { products } from "../../data/products";
 import { categories } from "../../data/categories";
@@ -15,7 +16,6 @@ import FloatingOrderButton from "./FloatingOrderButton";
 
 export default function MenuScreen() {
   const [selectedCategory, setSelectedCategory] = useState("cocktails");
-  const [order, setOrder] = useState([]);
 
   const {
     isLandscape,
@@ -28,28 +28,12 @@ export default function MenuScreen() {
   } = useResponsive();
 
   const showSidebar = isTablet && isLandscape;
-  
+
   const filteredProducts = useMemo(() => {
     return products.filter((item) => item.categoryId === selectedCategory);
   }, [selectedCategory]);
 
-  const addToOrder = (product) => {
-    setOrder((currentOrder) => {
-      const existingItem = currentOrder.find((item) => item.id === product.id);
-
-      if (existingItem) {
-        return currentOrder.map((item) =>
-          item.id === product.id
-            ? { ...item, quantity: item.quantity + 1 }
-            : item
-        );
-      }
-
-      return [...currentOrder, { ...product, quantity: 1 }];
-    });
-  };
-
-  const totalItems = order.reduce((sum, item) => sum + item.quantity, 0);
+  const { addToOrder, totalItems } = useOrder();
 
   return (
     <SafeAreaView className="flex-1 bg-[#f5ead7]">

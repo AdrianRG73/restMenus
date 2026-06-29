@@ -6,40 +6,46 @@ export default function MenuGrid({
   columns,
   cardWidth,
   cardHeight,
-  gap,
   onAddToOrder,
 }) {
   return (
     <FlatList
-      key={`grid-${columns}`}
       data={products}
       keyExtractor={(item) => item.id}
       numColumns={columns}
       showsVerticalScrollIndicator={false}
+      initialNumToRender={6}
+      maxToRenderPerBatch={6}
+      updateCellsBatchingPeriod={50}
+      windowSize={5}
+      removeClippedSubviews={true}
       contentContainerStyle={{
         paddingTop: 24,
         paddingBottom: 120,
       }}
-      renderItem={({ item, index }) => {
-        const columnIndex = index % columns;
-        const isLastColumn = columnIndex === columns - 1;
-
-        return (
-          <View
-            style={{
-              marginRight: isLastColumn ? 0 : gap,
-              marginBottom: gap,
-            }}
-          >
-            <ProductCard
-              product={item}
-              width={cardWidth}
-              height={cardHeight}
-              onAddToOrder={onAddToOrder}
-            />
-          </View>
-        );
-      }}
+      columnWrapperStyle={
+        columns > 1
+          ? {
+              gap: 16,
+            }
+          : undefined
+      }
+      renderItem={({ item }) => (
+        <View
+          style={{
+            width: cardWidth,
+            height: cardHeight,
+            marginBottom: 16,
+          }}
+        >
+          <ProductCard
+            product={item}
+            width={cardWidth}
+            height={cardHeight}
+            onAddToOrder={onAddToOrder}
+          />
+        </View>
+      )}
     />
   );
 }

@@ -1,12 +1,12 @@
+import { memo, useCallback } from "react";
 import { View, Text, Image, Pressable } from "react-native";
 
-export default function ProductCard({
-  product,
-  width,
-  height,
-  onAddToOrder,
-}) {
+function ProductCard({ product, width, height, onAddToOrder }) {
   const imageHeight = height <= 320 ? 95 : 130;
+
+  const handleAddToOrder = useCallback(() => {
+    onAddToOrder(product);
+  }, [onAddToOrder, product]);
 
   return (
     <View
@@ -73,7 +73,7 @@ export default function ProductCard({
         </View>
 
         <Pressable
-          onPress={() => onAddToOrder(product)}
+          onPress={handleAddToOrder}
           className={`h-9 items-center justify-center border border-transparent active:opacity-70 ${product.buttonClass}`}
         >
           <Text
@@ -86,3 +86,5 @@ export default function ProductCard({
     </View>
   );
 }
+
+export default memo(ProductCard);
