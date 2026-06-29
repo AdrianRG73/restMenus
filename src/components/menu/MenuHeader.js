@@ -6,11 +6,7 @@ export default function MenuHeader() {
     <View className="h-16 flex-row items-center justify-between border-b-2 border-zinc-900">
       <View>
         <Text className="text-3xl font-black text-zinc-950 tracking-tight uppercase">
-          Rest Menus
-        </Text>
-
-        <Text className="text-[10px] text-orange-700 font-bold tracking-[4px] uppercase">
-          Digital restaurant menu
+          Menu
         </Text>
       </View>
 

@@ -19,9 +19,13 @@ export function useOrder() {
     });
   }, []);
 
-  const removeFromOrder = useCallback((productId) => {
+  const increaseQuantity = useCallback((productId) => {
     setOrder((currentOrder) =>
-      currentOrder.filter((item) => item.id !== productId)
+      currentOrder.map((item) =>
+        item.id === productId
+          ? { ...item, quantity: item.quantity + 1 }
+          : item
+      )
     );
   }, []);
 
@@ -34,6 +38,12 @@ export function useOrder() {
             : item
         )
         .filter((item) => item.quantity > 0)
+    );
+  }, []);
+
+  const removeFromOrder = useCallback((productId) => {
+    setOrder((currentOrder) =>
+      currentOrder.filter((item) => item.id !== productId)
     );
   }, []);
 
@@ -54,8 +64,9 @@ export function useOrder() {
   return {
     order,
     addToOrder,
-    removeFromOrder,
+    increaseQuantity,
     decreaseQuantity,
+    removeFromOrder,
     clearOrder,
     totalItems,
     totalPrice,

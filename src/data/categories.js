@@ -1,22 +1,22 @@
 export const categories = [
   {
-    id: "cocktails",
-    name: "Cocktails",
+    id: "Bebidas",
+    name: "Bebidas",
     icon: "🍸",
   },
   {
     id: "wines",
-    name: "Wines",
+    name: "Vinos",
     icon: "🍷",
   },
   {
     id: "beers",
-    name: "Beers",
+    name: "Cervezas",
     icon: "🍺",
   },
   {
     id: "coffee",
-    name: "Coffee",
+    name: "Café",
     icon: "☕",
   },
 ];

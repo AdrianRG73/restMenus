@@ -143,7 +143,7 @@ export const products = productNames.map((name, index) => {
 
   return {
     id: `product-${index + 1}`,
-    categoryId: "cocktails",
+    categoryId: "Bebidas",
     name,
     year: 2024,
     ingredients: "Ingredientes básicos",

@@ -13,9 +13,11 @@ import MenuSidebar from "./MenuSidebar";
 import CategoryTabs from "./CategoryTabs";
 import MenuGrid from "./MenuGrid";
 import FloatingOrderButton from "./FloatingOrderButton";
+import OrderBasketModal from "../OrderBasketModal";
 
 export default function MenuScreen() {
   const [selectedCategory, setSelectedCategory] = useState("cocktails");
+  const [isOrderOpen, setIsOrderOpen] = useState(false);
 
   const {
     isLandscape,
@@ -27,13 +29,22 @@ export default function MenuScreen() {
     gap,
   } = useResponsive();
 
+  const {
+    order,
+    addToOrder,
+    increaseQuantity,
+    decreaseQuantity,
+    removeFromOrder,
+    clearOrder,
+    totalItems,
+    totalPrice,
+  } = useOrder();
+
   const showSidebar = isTablet && isLandscape;
 
   const filteredProducts = useMemo(() => {
     return products.filter((item) => item.categoryId === selectedCategory);
   }, [selectedCategory]);
-
-  const { addToOrder, totalItems } = useOrder();
 
   return (
     <SafeAreaView className="flex-1 bg-[#f5ead7]">
@@ -68,7 +79,21 @@ export default function MenuScreen() {
           />
         </View>
 
-        <FloatingOrderButton totalItems={totalItems} />
+        <FloatingOrderButton
+          totalItems={totalItems}
+          onPress={() => setIsOrderOpen(true)}
+        />
+        <OrderBasketModal
+          visible={isOrderOpen}
+          onClose={() => setIsOrderOpen(false)}
+          order={order}
+          totalItems={totalItems}
+          totalPrice={totalPrice}
+          onIncrease={increaseQuantity}
+          onDecrease={decreaseQuantity}
+          onRemove={removeFromOrder}
+          onClear={clearOrder}
+        />
       </View>
     </SafeAreaView>
   );

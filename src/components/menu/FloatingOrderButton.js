@@ -1,8 +1,11 @@
 import { View, Text, Pressable } from "react-native";
 
-export default function FloatingOrderButton({ totalItems }) {
+export default function FloatingOrderButton({ totalItems, onPress }) {
   return (
-    <Pressable className="absolute right-6 bottom-6 bg-zinc-950 border-2 border-yellow-400 px-5 py-4 active:scale-95">
+    <Pressable
+      onPress={onPress}
+      className="absolute bottom-6 right-6 h-14 w-14 items-center justify-center rounded-full bg-zinc-900 active:opacity-80"
+    >
       <View className="flex-row items-center gap-3">
         <Text className="text-yellow-400 text-xl">🧾</Text>
 
