@@ -7,16 +7,16 @@ function formatPrice(value) {
 export default function OrderBasketModal({
   visible,
   onClose,
-  order,
+  orderItems,
   totalItems,
-  totalPrice,
+  orderSubtotal,
+  taxAmount,
+  orderTotal,
   onIncrease,
   onDecrease,
   onRemove,
   onClear,
 }) {
-  const tax = totalPrice * 0.16;
-  const finalTotal = totalPrice + tax;
 
   return (
     <Modal
@@ -52,7 +52,7 @@ export default function OrderBasketModal({
           <View className="flex-1 flex-row">
             {/* Left side */}
             <View className="flex-1 p-6">
-              {order.length === 0 ? (
+              {orderItems.length === 0 ? (
                 <View className="flex-1 items-center justify-center">
                   <Text className="text-zinc-700 text-lg uppercase tracking-widest">
                     No hay alimentos en el carrito
@@ -60,7 +60,7 @@ export default function OrderBasketModal({
                 </View>
               ) : (
                 <FlatList
-                  data={order}
+                  data={orderItems}
                   keyExtractor={(item) => item.id}
                   showsVerticalScrollIndicator={false}
                   contentContainerStyle={{
@@ -161,14 +161,14 @@ export default function OrderBasketModal({
                   <Text className="text-[10px] tracking-widest text-zinc-700">
                     SUBTOTAL
                   </Text>
-                  <Text className="font-black">{formatPrice(totalPrice)}</Text>
+                  <Text className="font-black">{formatPrice(orderSubtotal)}</Text>
                 </View>
 
                 <View className="mb-8 flex-row justify-between">
                   <Text className="text-[10px] tracking-widest text-zinc-700">
                     IVA
                   </Text>
-                  <Text className="font-black">{formatPrice(tax)}</Text>
+                  <Text className="font-black">{formatPrice(taxAmount)}</Text>
                 </View>
 
                 <View className="mb-8 flex-row justify-between">
@@ -176,7 +176,7 @@ export default function OrderBasketModal({
                     TOTAL
                   </Text>
                   <Text className="text-2xl font-black">
-                    {formatPrice(finalTotal)}
+                    {formatPrice(orderTotal)}
                   </Text>
                 </View>
 

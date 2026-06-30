@@ -1,3 +1,5 @@
+import { CATEGORY_IDS } from "./categories";
+
 const productNames = [
   "Agua Natural",
   "Agua Mineral",
@@ -143,7 +145,7 @@ export const products = productNames.map((name, index) => {
 
   return {
     id: `product-${index + 1}`,
-    categoryId: "Bebidas",
+    categoryId: CATEGORY_IDS.DRINKS,
     name,
     year: 2024,
     ingredients: "Ingredientes básicos",

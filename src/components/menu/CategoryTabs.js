@@ -2,7 +2,7 @@ import { ScrollView, Pressable, Text } from "react-native";
 
 export default function CategoryTabs({
   categories,
-  selectedCategory,
+  selectedCategoryId,
   onSelectCategory,
 }) {
   return (
@@ -13,7 +13,7 @@ export default function CategoryTabs({
       contentContainerClassName="gap-3 py-4"
     >
       {categories.map((category) => {
-        const isActive = selectedCategory === category.id;
+        const isActive = selectedCategoryId === category.id;
 
         return (
           <Pressable

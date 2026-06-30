@@ -1,74 +1,99 @@
 import { useCallback, useMemo, useState } from "react";
 
+const TAX_RATE = 0.16;
+
+function createOrderItem(product) {
+  return {
+    ...product,
+    quantity: 1,
+  };
+}
+
+function updateItemQuantity(orderItem, quantityChange) {
+  return {
+    ...orderItem,
+    quantity: orderItem.quantity + quantityChange,
+  };
+}
+
 export function useOrder() {
-  const [order, setOrder] = useState([]);
+  const [orderItems, setOrderItems] = useState([]);
 
-  const addToOrder = useCallback((product) => {
-    setOrder((currentOrder) => {
-      const existingItem = currentOrder.find((item) => item.id === product.id);
+  const addProductToOrder = useCallback((product) => {
+    setOrderItems((currentItems) => {
+      const productAlreadyExists = currentItems.some(
+        (item) => item.id === product.id
+      );
 
-      if (existingItem) {
-        return currentOrder.map((item) =>
-          item.id === product.id
-            ? { ...item, quantity: item.quantity + 1 }
-            : item
-        );
+      if (!productAlreadyExists) {
+        return [...currentItems, createOrderItem(product)];
       }
 
-      return [...currentOrder, { ...product, quantity: 1 }];
+      return currentItems.map((item) =>
+        item.id === product.id ? updateItemQuantity(item, 1) : item
+      );
     });
   }, []);
 
-  const increaseQuantity = useCallback((productId) => {
-    setOrder((currentOrder) =>
-      currentOrder.map((item) =>
-        item.id === productId
-          ? { ...item, quantity: item.quantity + 1 }
-          : item
+  const increaseProductQuantity = useCallback((productId) => {
+    setOrderItems((currentItems) =>
+      currentItems.map((item) =>
+        item.id === productId ? updateItemQuantity(item, 1) : item
       )
     );
   }, []);
 
-  const decreaseQuantity = useCallback((productId) => {
-    setOrder((currentOrder) =>
-      currentOrder
+  const decreaseProductQuantity = useCallback((productId) => {
+    setOrderItems((currentItems) =>
+      currentItems
         .map((item) =>
-          item.id === productId
-            ? { ...item, quantity: item.quantity - 1 }
-            : item
+          item.id === productId ? updateItemQuantity(item, -1) : item
         )
         .filter((item) => item.quantity > 0)
     );
   }, []);
 
-  const removeFromOrder = useCallback((productId) => {
-    setOrder((currentOrder) =>
-      currentOrder.filter((item) => item.id !== productId)
+  const removeProductFromOrder = useCallback((productId) => {
+    setOrderItems((currentItems) =>
+      currentItems.filter((item) => item.id !== productId)
     );
   }, []);
 
   const clearOrder = useCallback(() => {
-    setOrder([]);
+    setOrderItems([]);
   }, []);
 
   const totalItems = useMemo(() => {
-    return order.reduce((total, item) => total + item.quantity, 0);
-  }, [order]);
+    return orderItems.reduce((total, item) => total + item.quantity, 0);
+  }, [orderItems]);
 
-  const totalPrice = useMemo(() => {
-    return order.reduce((total, item) => {
+  const orderSubtotal = useMemo(() => {
+    return orderItems.reduce((total, item) => {
       return total + item.price * item.quantity;
     }, 0);
-  }, [order]);
+  }, [orderItems]);
+
+  const taxAmount = useMemo(() => {
+    return orderSubtotal * TAX_RATE;
+  }, [orderSubtotal]);
+
+  const orderTotal = useMemo(() => {
+    return orderSubtotal + taxAmount;
+  }, [orderSubtotal, taxAmount]);
+
+  const hasOrderItems = orderItems.length > 0;
 
   return {
-    order,
-    addToOrder,
-    increaseQuantity,
-    decreaseQuantity,
-    removeFromOrder,
-    clearOrder,
+    orderItems,
     totalItems,
-    totalPrice,
+    orderSubtotal,
+    taxAmount,
+    orderTotal,
+    hasOrderItems,
+    addProductToOrder,
+    increaseProductQuantity,
+    decreaseProductQuantity,
+    removeProductFromOrder,
+    clearOrder,
   };
 }

@@ -16,7 +16,9 @@ import FloatingOrderButton from "./FloatingOrderButton";
 import OrderBasketModal from "../OrderBasketModal";
 
 export default function MenuScreen() {
-  const [selectedCategory, setSelectedCategory] = useState("cocktails");
+  const [selectedCategoryId, setSelectedCategoryId] = useState(
+    categories[0].id,
+  );
   const [isOrderOpen, setIsOrderOpen] = useState(false);
 
   const {
@@ -30,21 +32,25 @@ export default function MenuScreen() {
   } = useResponsive();
 
   const {
-    order,
-    addToOrder,
-    increaseQuantity,
-    decreaseQuantity,
-    removeFromOrder,
-    clearOrder,
+    orderItems,
     totalItems,
-    totalPrice,
+    orderSubtotal,
+    taxAmount,
+    orderTotal,
+    addProductToOrder,
+    increaseProductQuantity,
+    decreaseProductQuantity,
+    removeProductFromOrder,
+    clearOrder,
   } = useOrder();
 
   const showSidebar = isTablet && isLandscape;
 
-  const filteredProducts = useMemo(() => {
-    return products.filter((item) => item.categoryId === selectedCategory);
-  }, [selectedCategory]);
+  const visibleProducts = useMemo(() => {
+    return products.filter(
+      (product) => product.categoryId === selectedCategoryId,
+    );
+  }, [selectedCategoryId]);
 
   return (
     <SafeAreaView className="flex-1 bg-[#f5ead7]">
@@ -53,8 +59,8 @@ export default function MenuScreen() {
           <MenuSidebar
             width={sidebarWidth}
             categories={categories}
-            selectedCategory={selectedCategory}
-            onSelectCategory={setSelectedCategory}
+            selectedCategoryId={selectedCategoryId}
+            onSelectCategory={setSelectedCategoryId}
           />
         )}
 
@@ -64,18 +70,18 @@ export default function MenuScreen() {
           {!showSidebar && (
             <CategoryTabs
               categories={categories}
-              selectedCategory={selectedCategory}
-              onSelectCategory={setSelectedCategory}
+              selectedCategoryId={selectedCategoryId}
+              onSelectCategory={setSelectedCategoryId}
             />
           )}
 
           <MenuGrid
-            products={filteredProducts}
+            products={visibleProducts}
             columns={columns}
             cardWidth={cardWidth}
             cardHeight={cardHeight}
             gap={gap}
-            onAddToOrder={addToOrder}
+            onAddToOrder={addProductToOrder}
           />
         </View>
 
@@ -86,12 +92,14 @@ export default function MenuScreen() {
         <OrderBasketModal
           visible={isOrderOpen}
           onClose={() => setIsOrderOpen(false)}
-          order={order}
+          orderItems={orderItems}
           totalItems={totalItems}
-          totalPrice={totalPrice}
-          onIncrease={increaseQuantity}
-          onDecrease={decreaseQuantity}
-          onRemove={removeFromOrder}
+          orderSubtotal={orderSubtotal}
+          taxAmount={taxAmount}
+          orderTotal={orderTotal}
+          onIncrease={increaseProductQuantity}
+          onDecrease={decreaseProductQuantity}
+          onRemove={removeProductFromOrder}
           onClear={clearOrder}
         />
       </View>

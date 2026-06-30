@@ -3,7 +3,7 @@ import { View, Text, Pressable } from "react-native";
 export default function MenuSidebar({
   width,
   categories,
-  selectedCategory,
+  selectedCategoryId,
   onSelectCategory,
 }) {
   return (
@@ -15,7 +15,7 @@ export default function MenuSidebar({
 
       <View className="gap-8 items-center">
         {categories.map((category) => {
-          const isActive = selectedCategory === category.id;
+          const isActive = selectedCategoryId === category.id;
 
           return (
             <Pressable
