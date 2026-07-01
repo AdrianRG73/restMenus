@@ -1,5 +1,6 @@
 import { Pressable, Text } from "react-native";
 
+// Botón para cambiar el idioma de la aplicación entre inglés y español
 export default function LanguageButton() {
   return (
     <Pressable className="border border-zinc-800 px-3 py-2 bg-white active:opacity-70">

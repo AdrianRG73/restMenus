@@ -1,6 +1,7 @@
 import { View, Text, Pressable } from "react-native";
 import LanguageButton from "./LanguageButton";
 
+// Componente de encabezado del menú que muestra el título y boton de idioma
 export default function MenuHeader() {
   return (
     <View className="h-16 flex-row items-center justify-between border-b-2 border-zinc-900">
@@ -12,10 +13,6 @@ export default function MenuHeader() {
 
       <View className="flex-row items-center gap-4">
         <LanguageButton />
-
-        <Pressable className="w-10 h-10 items-center justify-center active:opacity-60">
-          <Text className="text-2xl text-zinc-950">☰</Text>
-        </Pressable>
       </View>
     </View>
   );

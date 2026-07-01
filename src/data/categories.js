@@ -6,6 +6,7 @@ export const CATEGORY_IDS = {
   EXTRAS: "extras",
 };
 
+// Definir las categorías de productos con sus respectivos IDs, nombres e íconos
 export const categories = [
   {
     id: CATEGORY_IDS.BREAKFAST,

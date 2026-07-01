@@ -1,5 +1,6 @@
 import { CATEGORY_IDS } from "./categories";
 
+// Definir los productos de ejemplo con sus respectivos IDs, nombres, descripciones, precios y estilos
 const productNames = [
   "Agua Natural",
   "Agua Mineral",
@@ -107,6 +108,7 @@ const productNames = [
   "Mocktail Frutos Rojos",
 ];
 
+// Definir los estilos de color para las tarjetas de productos según la categoría
 const colorStyles = [
   {
     colorClass: "bg-orange-100",
@@ -140,18 +142,19 @@ const colorStyles = [
   },
 ];
 
+// Iterar sobre los nombres de los productos y asignarles un ID, categoría, descripción, precio y estilo
 export const products = productNames.map((name, index) => {
-  const style = colorStyles[index % colorStyles.length];
+  const style = colorStyles[index % colorStyles.length]; // Asignar un estilo de color según el índice del producto
 
+  //
   return {
-    id: `product-${index + 1}`,
+    id: `product-${index + 1}`, // Generar un ID único para cada producto
     categoryId: CATEGORY_IDS.DRINKS,
     name,
-    year: 2024,
     ingredients: "Ingredientes básicos",
     description: "Producto de prueba para validar el rendimiento del menú.",
-    price: 40 + (index % 20) * 5,
+    price: 40 + (index % 20) * 5, // Asignar un precio de prueba basado en el índice del producto
     image: null,
-    ...style,
+    ...style, // Incluir los estilos de color en el objeto del producto
   };
 });
