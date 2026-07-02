@@ -6,7 +6,7 @@ export default function FloatingOrderButton({ totalItems, onPress }) {
     // Botón flotante en la esquina inferior derecha de la pantalla
     <Pressable
       onPress={onPress}
-      className="absolute bottom-6 right-6 h-14 w-14 items-center justify-center rounded-full bg-zinc-900 active:opacity-80"
+      className="absolute bottom-6 right-6 h-30 w-30 items-center bg-zinc-900 active:opacity-80"
     >
       {/* Contenido del botón flotante con ícono y texto */}
 
