@@ -1,9 +1,9 @@
-import { View, Text, Pressable } from "react-native";
-import LanguageButton from "./LanguageButton";
-import OrderBasketModal from "../OrderBasketModal";
+import { View, Text } from "react-native";
 
-// Componente de encabezado del menú que muestra el título y boton de idioma
-export default function MenuHeader() {
+import LanguageButton from "./LanguageButton";
+import OrderButton from "./OrderButton";
+
+export default function MenuHeader({ totalItems, onOpenOrder }) {
   return (
     <View className="h-16 flex-row items-center justify-between border-b-2 border-zinc-900">
       <View>
@@ -12,8 +12,9 @@ export default function MenuHeader() {
         </Text>
       </View>
 
-      <View className="flex-row items-center gap-4">
+      <View className="flex-row items-center gap-3">
         <LanguageButton />
+        <OrderButton totalItems={totalItems} onPress={onOpenOrder} />
       </View>
     </View>
   );

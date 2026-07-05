@@ -24,7 +24,7 @@ export default function MenuGrid({
       // Estilos para el contenedor del FlatList y las columnas del grid
       contentContainerStyle={{
         paddingTop: 24,
-        paddingBottom: 120,
+        paddingBottom: 24,
       }}
       // Estilos para el contenedor de cada fila del grid, agregando un espacio entre columnas si hay más de una columna
       columnWrapperStyle={

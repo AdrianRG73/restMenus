@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -12,7 +12,6 @@ import MenuHeader from "./MenuHeader";
 import MenuSidebar from "./MenuSidebar";
 import CategoryTabs from "./CategoryTabs";
 import MenuGrid from "./MenuGrid";
-import FloatingOrderButton from "./FloatingOrderButton";
 import OrderBasketModal from "../OrderBasketModal";
 
 // Mostrar el menú de productos con categorías, un grid de productos y un botón flotante para ver el pedido.
@@ -49,6 +48,14 @@ export default function MenuScreen() {
     clearOrder,
   } = useOrder();
 
+  const openOrderModal = useCallback(() => {
+    setIsOrderOpen(true);
+  }, []);
+
+  const closeOrderModal = useCallback(() => {
+    setIsOrderOpen(false);
+  }, []);
+
   // Determinar si se debe mostrar la barra lateral en función del tamaño de la pantalla y la orientación
   const showSidebar = isTablet && isLandscape;
 
@@ -71,13 +78,15 @@ export default function MenuScreen() {
             categories={categories}
             selectedCategoryId={selectedCategoryId}
             onSelectCategory={setSelectedCategoryId}
+            totalItems={totalItems}
+            onOpenOrder={openOrderModal}
           />
         )}
 
         {/* Contenedor principal del contenido del menú */}
 
         <View className="flex-1 px-6 py-4">
-          <MenuHeader />
+          <MenuHeader totalItems={totalItems} onOpenOrder={openOrderModal} />
           {!showSidebar && (
             // Mostrar las pestañas de categorías
             <CategoryTabs
@@ -88,7 +97,7 @@ export default function MenuScreen() {
           )}
 
           {/* Mostrar la cuadrícula de productos filtrados por categoría */}
-      
+
           <MenuGrid
             products={visibleProducts}
             columns={columns}
@@ -99,19 +108,11 @@ export default function MenuScreen() {
           />
         </View>
 
-          {/* Mostrar el botón flotante del pedido */}
-
-        <FloatingOrderButton
-          totalItems={totalItems}
-          // Abrir el modal del pedido al presionar el botón
-          onPress={() => setIsOrderOpen(true)}
-        />
-
         {/* Mostrar el modal del pedido con los detalles del pedido */}
-        
+
         <OrderBasketModal
           visible={isOrderOpen}
-          onClose={() => setIsOrderOpen(false)}
+          onClose={closeOrderModal}
           orderItems={orderItems}
           totalItems={totalItems}
           orderSubtotal={orderSubtotal}
