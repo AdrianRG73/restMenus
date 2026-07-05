@@ -27,7 +27,7 @@ function ProductCard({ product, width, height, onAddToOrder }) { // Calcular la 
         <Text
           numberOfLines={2}
           adjustsFontSizeToFit
-          className={`flex-1 text-2xl font-black uppercase leading-7 ${product.textClass}`}
+          className={`flex-1 text-center  text-2xl font-black uppercase leading-7 ${product.textClass}`}
         >
           {product.name}
         </Text>
@@ -49,7 +49,7 @@ function ProductCard({ product, width, height, onAddToOrder }) { // Calcular la 
 
       {/* Footer */}
       <View>
-        <View className="h-[2px] bg-zinc-900 mb-3 opacity-80" />
+        <View className={`h-[2px] ${product.lineClass} mb-3 opacity-80`} />
 
         <View className="flex-row justify-between items-start mb-3">
           <View className="flex-1 pr-3">

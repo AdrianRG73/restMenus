@@ -1,5 +1,6 @@
 import { View, Text, Pressable } from "react-native";
 import LanguageButton from "./LanguageButton";
+import OrderBasketModal from "../OrderBasketModal";
 
 // Componente de encabezado del menú que muestra el título y boton de idioma
 export default function MenuHeader() {

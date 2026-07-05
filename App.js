@@ -9,8 +9,8 @@ const SHOW_KITCHEN_BOARD = true;
 export default function App() {
   return (
     <SafeAreaProvider>
-      {/* <MenuScreen /> */}
-      {SHOW_KITCHEN_BOARD ? <KitchenBoardScreen /> : <MenuScreen />}
+      <MenuScreen />
+      {/*SHOW_KITCHEN_BOARD ? <KitchenBoardScreen /> : <MenuScreen />}*/}
     </SafeAreaProvider>
   );
 }
