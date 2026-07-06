@@ -26,12 +26,10 @@ export default function MenuScreen() {
   const [isOrderOpen, setIsOrderOpen] = useState(false);
 
   const {
-    isLandscape,
-    isTablet,
     sidebarWidth,
     cardWidth,
+    showSidebar,
     cardHeight,
-    columns,
     gap,
   } = useResponsive();
 
@@ -55,9 +53,6 @@ export default function MenuScreen() {
   const closeOrderModal = useCallback(() => {
     setIsOrderOpen(false);
   }, []);
-
-  // Determinar si se debe mostrar la barra lateral en función del tamaño de la pantalla y la orientación
-  const showSidebar = isTablet && isLandscape;
 
   // Filtrar los productos visibles según la categoría seleccionada
   const visibleProducts = useMemo(() => {
@@ -100,7 +95,6 @@ export default function MenuScreen() {
 
           <MenuGrid
             products={visibleProducts}
-            columns={columns}
             cardWidth={cardWidth}
             cardHeight={cardHeight}
             gap={gap}

@@ -19,7 +19,7 @@ function ProductCard({ product, width, height, onAddToOrder }) { // Calcular la 
         overflow: "hidden",
       }}
       // Aplicar clases de estilo condicional según el color de la categoría del producto
-      className={`border-2 border-zinc-900 p-4 ${product.colorClass}`}
+      className={`border-4 border-zinc-900 p-4 ${product.colorClass}`}
     >
       {/* Header */}
       <View className="flex-row justify-between items-start gap-2">

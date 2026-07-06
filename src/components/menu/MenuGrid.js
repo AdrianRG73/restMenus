@@ -1,55 +1,58 @@
+import { useMemo } from "react";
 import { FlatList, View } from "react-native";
+
 import ProductCard from "./ProductCard";
+
+const PRODUCTS_PER_COLUMN = 2;
+
+function groupProductsByColumn(products, itemsPerColumn) {
+  const groupedProducts = [];
+
+  for (let index = 0; index < products.length; index += itemsPerColumn) {
+    groupedProducts.push(products.slice(index, index + itemsPerColumn));
+  }
+
+  return groupedProducts;
+}
 
 export default function MenuGrid({
   products,
-  columns,
   cardWidth,
   cardHeight,
+  gap,
   onAddToOrder,
 }) {
-  return (
-    // Renderizar un FlatList para mostrar los productos en un grid con el número de columnas especificado
-    <FlatList
-      data={products} 
-      keyExtractor={(item) => item.id}
-      numColumns={columns}
-      showsVerticalScrollIndicator={false} 
-      initialNumToRender={6} // Renderizar inicialmente 6 elementos
-      maxToRenderPerBatch={6} // Renderizar un máximo de 6 elementos por lote
-      updateCellsBatchingPeriod={50} // Actualizar las celdas cada 50 ms
-      windowSize={5} // Mantener 5 ventanas de elementos renderizados
-      removeClippedSubviews={true} // Eliminar sub-vistas recortadas
+  const productColumns = useMemo(() => {
+    return groupProductsByColumn(products, PRODUCTS_PER_COLUMN);
+  }, [products]);
 
-      // Estilos para el contenedor del FlatList y las columnas del grid
+  return (
+    <FlatList
+      horizontal
+      data={productColumns}
+      keyExtractor={(productColumn) =>
+        productColumn.map((product) => product.id).join("-")
+      }
+      showsHorizontalScrollIndicator={false}
+      showsVerticalScrollIndicator={false}
+      className="flex-1"
       contentContainerStyle={{
         paddingTop: 24,
         paddingBottom: 24,
+        paddingRight: 32,
       }}
-      // Estilos para el contenedor de cada fila del grid, agregando un espacio entre columnas si hay más de una columna
-      columnWrapperStyle={
-        columns > 1
-          ? {
-              gap: 16,
-            }
-          : undefined
-      }
-      // Renderizar cada producto como un ProductCard dentro de un contenedor con el tamaño especificado
-      renderItem={({ item }) => (
-        <View
-          style={{
-            width: cardWidth,
-            height: cardHeight,
-            marginBottom: 16,
-          }}
-        >
-          {/* Renderizar el ProductCard con el producto, tamaño y función para agregar al pedido */}
-          <ProductCard
-            product={item}
-            width={cardWidth}
-            height={cardHeight}
-            onAddToOrder={onAddToOrder}
-          />
+      ItemSeparatorComponent={() => <View style={{ width: gap }} />}
+      renderItem={({ item: productColumn }) => (
+        <View style={{ width: cardWidth, gap }}>
+          {productColumn.map((product) => (
+            <ProductCard
+              key={product.id}
+              product={product}
+              width={cardWidth}
+              height={cardHeight}
+              onAddToOrder={onAddToOrder}
+            />
+          ))}
         </View>
       )}
     />

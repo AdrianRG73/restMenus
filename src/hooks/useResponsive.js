@@ -1,41 +1,60 @@
 import { useWindowDimensions } from "react-native";
 
-// Obtener dimensiones de la ventana y calcular propiedades de diseño responsivo
+const TABLET_MIN_WIDTH = 768;
+const LARGE_TABLET_MIN_WIDTH = 1100;
+const SIDEBAR_WIDTH = 72;
+
+const GRID_ROWS = 2;
+const HEADER_HEIGHT = 64;
+const CATEGORY_TABS_HEIGHT = 64;
+const CONTENT_VERTICAL_PADDING = 32;
+const GRID_VERTICAL_PADDING = 48;
+
+const MIN_CARD_HEIGHT = 220;
+const MAX_CARD_HEIGHT = 300;
+
+function clamp(value, min, max) {
+  return Math.min(Math.max(value, min), max);
+}
+
 export function useResponsive() {
   const { width, height } = useWindowDimensions();
 
-  // Determinar si el dispositivo está en modo horizontal y si es una tablet
   const isLandscape = width > height;
-  const isTablet = width >= 768;
+  const isTablet = width >= TABLET_MIN_WIDTH;
+  const isLargeTablet = width >= LARGE_TABLET_MIN_WIDTH;
 
-  // Calcular el ancho de la barra lateral basado en si es una tablet y está en modo horizontal
-  const sidebarWidth = isTablet && isLandscape ? 72 : 0;
+  const showSidebar = isTablet && isLandscape;
+  const sidebarWidth = showSidebar ? SIDEBAR_WIDTH : 0;
 
-  // Calcular el padding horizontal del contenido basado en si es una tablet
-  const contentPaddingX = isTablet ? 48 : 32;
-  const gap = 16;
+  const gap = isTablet ? 24 : 16;
 
-  // Calcular el ancho y alto de las tarjetas basados en si es una tablet y el modo de orientación
-  const cardWidth = isTablet ? 260 : width - contentPaddingX;
-  const cardHeight = isLandscape ? 300 : 440;
+  const cardWidth = isLargeTablet ? 260 : isTablet ? 240 : width - 32;
 
-  // Calcular el ancho disponible para las tarjetas después de restar la barra lateral y el padding
-  const availableWidth = width - sidebarWidth - contentPaddingX;
+  const reservedVerticalSpace =
+    HEADER_HEIGHT +
+    CONTENT_VERTICAL_PADDING +
+    GRID_VERTICAL_PADDING +
+    (showSidebar ? 0 : CATEGORY_TABS_HEIGHT);
 
-  // Calcular el número de columnas basado en el ancho disponible y el ancho de la tarjeta
-  const columns = isTablet
-    ? Math.max(1, Math.floor((availableWidth + gap) / (cardWidth + gap)))
-    : 1;
+  const availableGridHeight = height - reservedVerticalSpace;
+
+  const cardHeight = clamp(
+    Math.floor((availableGridHeight - gap) / GRID_ROWS),
+    MIN_CARD_HEIGHT,
+    MAX_CARD_HEIGHT,
+  );
 
   return {
     width,
     height,
     isLandscape,
     isTablet,
+    isLargeTablet,
+    showSidebar,
     sidebarWidth,
     cardWidth,
     cardHeight,
-    columns,
     gap,
   };
 }
