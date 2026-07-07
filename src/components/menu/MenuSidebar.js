@@ -1,4 +1,4 @@
-import { View, Text, Pressable } from "react-native";
+import {Image, View, Text, Pressable } from "react-native";
 
 import SidebarOrderButton from "./SidebarOrderButton";
 
@@ -15,7 +15,13 @@ export default function MenuSidebar({
       style={{ width }}
       className="items-center justify-between border-r-2 border-yellow-500 bg-zinc-950 py-6"
     >
-      <Text className="text-xl font-black text-yellow-400">☰</Text>
+      <View className="justify-center">
+        <Image
+          source={require("../../assets/Logo_cybar.png")}
+          className="w-12 h-12"
+          resizeMode="contain"
+        />
+      </View>
 
       <View className="items-center gap-8">
         {categories.map((category) => {

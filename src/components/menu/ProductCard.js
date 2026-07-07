@@ -27,7 +27,7 @@ function ProductCard({ product, width, height, onAddToOrder }) { // Calcular la 
         <Text
           numberOfLines={2}
           adjustsFontSizeToFit
-          className={`flex-1 text-center  text-2xl font-black uppercase leading-7 ${product.textClass}`}
+          className={`font-title flex-1 text-center text-3xl uppercase ${product.textClass}`}
         >
           {product.name}
         </Text>
@@ -56,21 +56,21 @@ function ProductCard({ product, width, height, onAddToOrder }) { // Calcular la 
             {/* Mostrar los ingredientes y la descripción del producto con estilo condicional según el color de la categoría del producto */}
             <Text
               numberOfLines={1}
-              className={`text-[8px] font-black uppercase tracking-widest ${product.textClass}`}
+              className={`font-text uppercase text-base ${product.textClass}`}
             >
               {product.ingredients}
             </Text>
 
             <Text
               numberOfLines={2}
-              className={`text-[10px] italic mt-1 leading-3 ${product.textClass}`}
+              className={`font-information text-base ${product.textClass}`}
             >
               {product.description}
             </Text>
           </View>
 
           {/* Mostrar el precio del producto con estilo condicional según el color de la categoría del producto */}
-          <Text className={`text-base font-black ${product.textClass}`}>
+          <Text className={`font-title text-base ${product.textClass}`}>
             ${product.price}
           </Text>
         </View>
@@ -82,7 +82,7 @@ function ProductCard({ product, width, height, onAddToOrder }) { // Calcular la 
         >
           {/* Mostrar el texto del botón con estilo condicional según el color de la categoría del producto */}
           <Text
-            className={`text-[9px] font-black tracking-widest uppercase ${product.buttonTextClass}`}
+            className={`font-button text-lg uppercase ${product.buttonTextClass}`}
           >
             Agregar
           </Text>

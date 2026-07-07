@@ -5,10 +5,14 @@ import OrderButton from "./OrderButton";
 
 export default function MenuHeader({ totalItems, onOpenOrder }) {
   return (
-    <View className="h-16 flex-row items-center justify-between border-b-2 border-zinc-900">
-      <View>
-        <Text className="text-3xl font-black text-zinc-950 tracking-tight uppercase">
-          Menu
+    <View className="h-16 flex-row items-center justify-between border-b-2 border-zinc-900 px-4">
+      <View className="justify-center">
+        <Text className="font-title text-3xl uppercase">
+          Nombre Restaurante
+        </Text>
+
+        <Text className="font-text text-base uppercase text-orange-400">
+          Mesa 1
         </Text>
       </View>
 
