@@ -2,7 +2,8 @@ import { memo, useCallback } from "react";
 import { View, Text, Image, Pressable } from "react-native";
 
 // Componente de tarjeta de producto para mostrar la información del producto y permitir agregarlo al pedido
-function ProductCard({ product, width, height, onAddToOrder }) { // Calcular la altura de la imagen según la altura de la tarjeta
+function ProductCard({ product, width, height, onAddToOrder }) {
+  // Calcular la altura de la imagen según la altura de la tarjeta
   const imageHeight = height <= 320 ? 95 : 130;
 
   // Función para manejar el evento de agregar el producto al pedido, utilizando useCallback para memorizar la función y evitar re-renderizados innecesarios
@@ -19,7 +20,7 @@ function ProductCard({ product, width, height, onAddToOrder }) { // Calcular la 
         overflow: "hidden",
       }}
       // Aplicar clases de estilo condicional según el color de la categoría del producto
-      className={`border-4 border-zinc-900 p-4 ${product.colorClass}`}
+      className={`border-4 p-4 ${product.borderClass} ${product.colorClass}`}
     >
       {/* Header */}
       <View className="flex-row justify-between items-start gap-2">
@@ -27,7 +28,7 @@ function ProductCard({ product, width, height, onAddToOrder }) { // Calcular la 
         <Text
           numberOfLines={2}
           adjustsFontSizeToFit
-          className={`font-title flex-1 text-center text-3xl uppercase ${product.textClass}`}
+          className={`font-title flex-1 text-left text-3xl uppercase ${product.textClass}`}
         >
           {product.name}
         </Text>
@@ -39,8 +40,8 @@ function ProductCard({ product, width, height, onAddToOrder }) { // Calcular la 
           <Image
             source={product.image}
             style={{
-              width: "80%",
-              height: imageHeight,
+              width: "70%",
+              height: "70%",
             }}
             resizeMode="contain"
           />
@@ -63,7 +64,11 @@ function ProductCard({ product, width, height, onAddToOrder }) { // Calcular la 
 
             <Text
               numberOfLines={2}
-              className={`font-information text-base ${product.textClass}`}
+              className={`font-information text-base ${
+                product.colorClass === "bg-[#202020]"
+                  ? "text-[#FBF1E4]"
+                  : product.textClass
+              }`}
             >
               {product.description}
             </Text>

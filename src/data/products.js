@@ -108,6 +108,12 @@ const productNames = [
   "Mocktail Frutos Rojos",
 ];
 
+const productImages = [
+  require("../assets/agua.jpg"),
+  require("../assets/coca.jpg"),
+  require("../assets/naranja.jpg"),
+];
+
 // Definir los estilos de color para las tarjetas de productos según la categoría
 const colorStyles = [
   {
@@ -116,6 +122,7 @@ const colorStyles = [
     buttonClass: "bg-[#222122]",
     buttonTextClass: "text-[#D8A808]",
     lineClass: "bg-[#222122]",
+    borderClass: "border-[#222122]",
   },
   {
     colorClass: "bg-[#C04000]",
@@ -123,6 +130,7 @@ const colorStyles = [
     buttonClass: "bg-[#FBF1E4]",
     buttonTextClass: "text-[#C04000]",
     lineClass: "bg-[#FBF1E4]",
+    borderClass: "border-[#222122]",
   },
   {
     colorClass: "bg-[#586830]",
@@ -130,6 +138,7 @@ const colorStyles = [
     buttonClass: "bg-[#FBF1E4]",
     buttonTextClass: "text-[#586830]",
     lineClass: "bg-[#FBF1E4]",
+    borderClass: "border-[#222122]",
   },
   {
     colorClass: "bg-[#202020]",
@@ -137,6 +146,7 @@ const colorStyles = [
     buttonClass: "bg-[#DFAE09]",
     buttonTextClass: "text-[#202020]",
     lineClass: "bg-[#DFAE09]",
+    borderClass: "border-[#DFAE09]",
   },
 ];
 
@@ -152,7 +162,7 @@ export const products = productNames.map((name, index) => {
     ingredients: "Ingredientes básicos",
     description: "Producto de prueba para validar el rendimiento del menú.",
     price: 40 + (index % 20) * 5, // Asignar un precio de prueba basado en el índice del producto
-    image: null,
+    image: productImages[index % productImages.length],
     ...style, // Incluir los estilos de color en el objeto del producto
   };
 });

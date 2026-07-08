@@ -8,8 +8,7 @@ const FONT_ASSETS = {
   [FONT_FAMILIES.button]: require("../assets/fonts/Oswald-Regular.ttf"),
   [FONT_FAMILIES.body]: require("../assets/fonts/CourierPrime-Regular.ttf"),
   [FONT_FAMILIES.information]: require("../assets/fonts/BodoniModa9pt-Italic.ttf"),
-  [FONT_FAMILIES.text]: require("../assets/fonts/Oswald-Bold.ttf"),
-  [FONT_FAMILIES.bodyBold]: require("../assets/fonts/CourierPrime-Bold.ttf"),
+  [FONT_FAMILIES.sub]: require("../assets/fonts/Oswald-Bold.ttf"),
 };
 
 module.exports = {

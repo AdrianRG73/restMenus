@@ -3,9 +3,8 @@ const FONT_FAMILIES = Object.freeze({ // Evitamos que se puedan cambiar con obje
   title: "BodoniModa48pt-Black",
   information: "BodoniModa9pt-Italic",
   button: "Oswald-Regular",
-  text: "Oswald-Bold",
+  sub: "Oswald-Bold",
   body: "CourierPrime-Regular",
-  bodyBold: "CourierPrime-Bold",
 });
 
 module.exports = {

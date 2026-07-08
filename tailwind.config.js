@@ -10,11 +10,10 @@ module.exports = {
       //Se conecta NativeWind con las fuentes
       fontFamily: {
         title: [FONT_FAMILIES.title], // font-title    -> BodoniModa48pt-Black
-        button: [FONT_FAMILIES.button], // font-button   -> Oswald-Bold
+        button: [FONT_FAMILIES.button], // font-button   -> Oswald-Rrgular
         body: [FONT_FAMILIES.body], // font-body     -> CourierPrime-Regular
-        text: [FONT_FAMILIES.text],
-        information: [FONT_FAMILIES.information],
-        bodyBold: [FONT_FAMILIES.bodyBold], // font-bodyBold -> CourierPrime-Bold
+        sub: [FONT_FAMILIES.sub], // font-sub       -> Oswald-Bold
+        information: [FONT_FAMILIES.information], // font-information       -> BodoniModa9pt-Italix
       },
     },
   },
