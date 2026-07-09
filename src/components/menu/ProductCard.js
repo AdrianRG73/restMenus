@@ -40,8 +40,8 @@ function ProductCard({ product, width, height, onAddToOrder }) {
           <Image
             source={product.image}
             style={{
-              width: "70%",
-              height: "70%",
+              width: "80",
+              height: "80",
             }}
             resizeMode="contain"
           />

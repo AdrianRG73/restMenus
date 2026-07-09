@@ -7,12 +7,10 @@ function NavigationTabButton({ tab, isActive, onPress }) {
     
     // Poner borde o no al estar activa
     const activeBorderClass = isActive
-    ? "border-[#08a88a]"
-    : "border-transparent";
+    ? "border-[#08a88a]" // Linea de ventana activa
+    : "border-transparent"; // sin linea
 
-  const symbolClass = isActive ? "text-[#08a88a]" : "text-zinc-600";
-
-  const labelClass = isActive ? "text-[#f2e9d0]" : "text-zinc-500";
+  const labelClass = isActive ? "text-[#f2e9d0]" : "text-zinc-500"; // Texto inactivo
 
   return (
     <Pressable
@@ -20,10 +18,6 @@ function NavigationTabButton({ tab, isActive, onPress }) {
       className={`flex-1 items-center justify-center border-t-2 ${activeBorderClass}`}
     >
       <View className="flex-row items-center gap-2">
-        <Text className={`font-bodyBold text-sm ${symbolClass}`}>
-          {tab.symbol}
-        </Text>
-
         <Text
           className={`font-button text-[10px] uppercase tracking-[2px] ${labelClass}`}
         >
