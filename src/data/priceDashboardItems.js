@@ -1,0 +1,70 @@
+export const priceDashboardCategories = [
+  {
+    id: "signature-cocktails",
+    title: "SIGNATURE COCKTAILS",
+    itemCountLabel: "3 ITEMS",
+    headerColorClass: "bg-[#5f7d32]",
+    layout: "half",
+    items: [
+      {
+        id: "highball",
+        name: "HIGHBALL",
+        inventoryLabel: "INVENTORY: 42",
+        price: 14,
+        available: true,
+        icon: "🥃",
+      },
+      {
+        id: "old-fashioned",
+        name: "OLD FASHIONED",
+        inventoryLabel: "INVENTORY: 18",
+        price: 16.5,
+        available: true,
+        icon: "🥃",
+      },
+    ],
+  },
+  {
+    id: "after-dinner",
+    title: "AFTER DINNER",
+    itemCountLabel: "1 ITEM",
+    headerColorClass: "bg-[#c6a21a]",
+    layout: "half",
+    items: [
+      {
+        id: "the-flip",
+        name: "THE FLIP",
+        inventoryLabel: "INVENTORY: 12",
+        price: 18,
+        available: true,
+        icon: "🍸",
+      },
+    ],
+  },
+  {
+    id: "small-plates",
+    title: "SMALL PLATES",
+    itemCountLabel: "2 ITEMS",
+    headerColorClass: "bg-[#53677f]",
+    layout: "full",
+    items: [
+      {
+        id: "oysters",
+        name: "OYSTERS",
+        inventoryLabel: "MARKET PRICE",
+        price: null,
+        priceLabel: "MP",
+        available: false,
+        icon: "🍴",
+      },
+      {
+        id: "bone-marrow",
+        name: "BONE MARROW",
+        inventoryLabel: "INVENTORY: 6",
+        price: 22,
+        available: false,
+        icon: "🍖",
+      },
+    ],
+  },
+];

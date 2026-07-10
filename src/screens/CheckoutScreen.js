@@ -86,7 +86,7 @@ export default function CheckoutScreen() {
           }
 
           return (
-            <View className="flex-1"> {/* Usar el mismo ancho */}
+            <View className="flex-1">
               <CheckoutTableCard
                 order={item}
                 onProcessPayment={() => handleProcessPayment(item)} // Mesa especifica para las acciones de los botones, es necesario pasar el id

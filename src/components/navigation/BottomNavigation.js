@@ -3,50 +3,50 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { NAVIGATION_TABS } from "../../constants/navigationTabs";
 
-function NavigationTabButton({ tab, isActive, onPress }) {
-    
-    // Poner borde o no al estar activa
-    const activeBorderClass = isActive
-    ? "border-[#08a88a]" // Linea de ventana activa
-    : "border-transparent"; // sin linea
-
-  const labelClass = isActive ? "text-[#f2e9d0]" : "text-zinc-500"; // Texto inactivo
+function BottomNavigationButton({ tab, isActive, onPress }) {
+  const symbolClass = isActive ? "text-[#08a88a]" : "text-zinc-600";
+  const labelClass = isActive ? "text-[#f2e9d0]" : "text-zinc-600";
+  const underlineClass = isActive ? "bg-[#08a88a]" : "bg-transparent";
 
   return (
-    <Pressable
-      onPress={onPress}
-      className={`flex-1 items-center justify-center border-t-2 ${activeBorderClass}`}
-    >
-      <View className="flex-row items-center gap-2">
-        <Text
-          className={`font-button text-[10px] uppercase tracking-[2px] ${labelClass}`}
-        >
-          {tab.label}
-        </Text>
+    <Pressable onPress={onPress} className="flex-1 items-center justify-center">
+      <View className="items-center">
+        <View className="flex-row items-center gap-2">
+          <Text className={`font-bodyBold text-xs ${symbolClass}`}>
+            {tab.symbol}
+          </Text>
+
+          <Text
+            className={`font-button text-[9px] uppercase tracking-[2px] ${labelClass}`}
+          >
+            {tab.label}
+          </Text>
+        </View>
+
+        <View className={`mt-1 h-[2px] w-10 ${underlineClass}`} />
       </View>
     </Pressable>
   );
 }
 
-//Funcion para cambiar de pantalla y saber cual esta activa
 export default function BottomNavigation({ activeScreenId, onScreenChange }) {
-  const insets = useSafeAreaInsets(); //Area segura del dispositivo
+  const insets = useSafeAreaInsets();
 
   return (
     <View
-      style={{ paddingBottom: insets.bottom }} // Para que se vea bien
-      className="border-t-2 border-zinc-900 bg-black"
+      style={{ paddingBottom: insets.bottom }}
+      className="border-t-2 border-[#1d1915] bg-black"
     >
-      <View className="h-16 flex-row">
+      <View className="h-14 flex-row">
         {NAVIGATION_TABS.map((tab) => {
           const isActive = tab.id === activeScreenId;
 
           return (
-            <NavigationTabButton
+            <BottomNavigationButton
               key={tab.id}
-              tab={tab} // Informacion del boton
-              isActive={isActive} // Sber si es seleccionado
-              onPress={() => onScreenChange(tab.id)} // Accion al tocarlo
+              tab={tab}
+              isActive={isActive}
+              onPress={() => onScreenChange(tab.id)}
             />
           );
         })}

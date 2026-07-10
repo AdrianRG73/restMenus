@@ -7,28 +7,51 @@ import { SCREEN_IDS } from "../constants/navigationTabs";
 
 import CheckoutScreen from "./CheckoutScreen";
 import KitchenBoardScreen from "./KitchenBoardScreen";
+import PriceDashboardScreen from "./PriceDashboardScreen";
 
-// Coneccion de ID con componentes
-const SCREEN_COMPONENTS = Object.freeze({
-  [SCREEN_IDS.menu]: MenuScreen,
-  [SCREEN_IDS.kitchen]: KitchenBoardScreen,
-  [SCREEN_IDS.checkout]: CheckoutScreen,
-});
-
-// Navegacion principal
 export default function AppNavigator() {
-  const [activeScreenId, setActiveScreenId] = useState(SCREEN_IDS.kitchen); // Inicialmente abre Cocina
+  const [activeScreenId, setActiveScreenId] = useState(SCREEN_IDS.menu);
 
-  // Para pruebas
-  const ActiveScreen = SCREEN_COMPONENTS[activeScreenId] ?? MenuScreen; 
+  const shouldShowBottomNavigation = activeScreenId !== SCREEN_IDS.menu;
 
-  const shouldShowBottomNavigation = activeScreenId; // !== SCREEN_IDS.menu;
+  const goToMenu = () => {
+    setActiveScreenId(SCREEN_IDS.menu);
+  };
+
+  const goToKitchen = () => {
+    setActiveScreenId(SCREEN_IDS.kitchen);
+  };
+
+  const goToPrices = () => {
+    setActiveScreenId(SCREEN_IDS.prices);
+  };
+
+  const goToCheckout = () => {
+    setActiveScreenId(SCREEN_IDS.checkout);
+  };
 
   return (
-    // Renderiza la pantalla activ
     <View className="flex-1 bg-[#111312]">
       <View className="flex-1">
-        <ActiveScreen /> 
+        {activeScreenId === SCREEN_IDS.menu && (
+          <MenuScreen
+            onOpenKitchen={goToKitchen}
+            onOpenPrices={goToPrices}
+            onOpenCheckout={goToCheckout}
+          />
+        )}
+
+        {activeScreenId === SCREEN_IDS.kitchen && (
+          <KitchenBoardScreen onBackToMenu={goToMenu} />
+        )}
+
+        {activeScreenId === SCREEN_IDS.prices && (
+          <PriceDashboardScreen onBackToMenu={goToMenu} />
+        )}
+
+        {activeScreenId === SCREEN_IDS.checkout && (
+          <CheckoutScreen onBackToMenu={goToMenu} />
+        )}
       </View>
 
       {shouldShowBottomNavigation && (

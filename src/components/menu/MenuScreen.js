@@ -17,7 +17,7 @@ import OrderBasketModal from "../OrderBasketModal";
 // Mostrar el menú de productos con categorías, un grid de productos y un botón flotante para ver el pedido.
 // Se adapta a diferentes tamaños de pantalla, mostrando una barra lateral en tabletas y pestañas de categorías en dispositivos más pequeños.
 
-export default function MenuScreen() {
+export default function MenuScreen({ onOpenKitchen, onOpenCheckout, onOpenPrices }) {
   // Estado para la categoría seleccionada y el estado del modal del pedido
   const [selectedCategoryId, setSelectedCategoryId] = useState(
     categories[0].id,
@@ -25,13 +25,8 @@ export default function MenuScreen() {
   // Estado para controlar la visibilidad del modal del pedido
   const [isOrderOpen, setIsOrderOpen] = useState(false);
 
-  const {
-    sidebarWidth,
-    cardWidth,
-    showSidebar,
-    cardHeight,
-    gap,
-  } = useResponsive();
+  const { sidebarWidth, cardWidth, showSidebar, cardHeight, gap } =
+    useResponsive();
 
   const {
     orderItems,
@@ -81,7 +76,13 @@ export default function MenuScreen() {
         {/* Contenedor principal del contenido del menú */}
 
         <View className="flex-1 px-6 py-4">
-          <MenuHeader totalItems={totalItems} onOpenOrder={openOrderModal} />
+          <MenuHeader
+            totalItems={totalItems}
+            onOpenOrder={openOrderModal}
+            onOpenKitchen={onOpenKitchen}
+            onOpenPrices={onOpenPrices}
+            onOpenCheckout={onOpenCheckout}
+          />
           {!showSidebar && (
             // Mostrar las pestañas de categorías
             <CategoryTabs

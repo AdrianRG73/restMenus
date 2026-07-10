@@ -16,29 +16,32 @@ export default function CheckoutTableCard({
   const total = calculateOrderTotal(order.items); // calcular total
 
   return (
-    <View className="h-[250px] border-2 border-[#2b241f] bg-[#151716]"> {/* Altura fija, borde grueso, colores de fondo y borde */}
-      {/* Header de color */}
+    <View className="h-[250px] border-2 border-[#2b241f] bg-[#151716]">
+      {/* Altura, centrada, padding, color dinamico */}
       <View
-        className={`h-12 justify-center px-5 ${order.headerColorClass}`} // Altura, centrada, padding, color dinamico
+        className={`h-12 justify-center px-5 ${order.headerColorClass}`} 
       >
+        {/* Nombre de la mesa */}
         <Text className="font-title text-xl uppercase text-white">
-          {order.tableName} {/* Nombre de la mesa */}
+          {order.tableName} 
         </Text>
       </View>
 
-      {/* Contenido */}
-      <View className="flex-1 justify-between px-5 py-4"> {/* Espacio restante bajo el headder, empuja contenido, padding H y V */}
+      {/* Espacio restante bajo el headder, empuja contenido, padding H y V */}
+      <View className="flex-1 justify-between px-5 py-4"> 
+        {/* Se recorren los productos de la mesa */}
         <View> 
-          {order.items.map((item) => ( // Se recorren los productos de la mesa
+          {order.items.map((item) => (
             <CheckoutItemRow key={item.id} item={item} />
           ))}
 
-          <View className="mt-2 h-[1px] bg-[#2b241f]" /> {/* Linea separadora */}
+          {/* Linea separadora */}
+          <View className="mt-2 h-[1px] bg-[#2b241f]" />
         </View>
 
         <View className="flex-row gap-4">
-          {/* Caja blanca del total */}
-          <View className="h-[76px] flex-[0.95] border-2 border-[#d8d0bd] bg-[#f5f0e6] px-4 py-3"> {/* Altura fija, Parte del ancho, borde, fondo, padding */}
+          {/* Altura fija, Parte del ancho, borde, fondo, padding */}
+          <View className="h-[76px] flex-[0.95] border-2 border-[#d8d0bd] bg-[#f5f0e6] px-4 py-3"> 
             <Text className="font-body text-[9px] uppercase text-zinc-700">
               Total Amount
             </Text>
