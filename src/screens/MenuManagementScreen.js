@@ -1,8 +1,4 @@
-import {
-  useCallback,
-  useMemo,
-  useState,
-} from "react";
+import { useCallback, useMemo, useState } from "react";
 import { View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -56,12 +52,20 @@ export default function MenuManagementScreen() {
     ? `Productos de ${selectedCategory.name}`
     : "Productos";
 
+  const handleEditProduct = useCallback((product) => {
+    console.log("Editar producto:", product);
+  }, []);
+
+  const handleDeleteProduct = useCallback((product) => {
+    console.log("Eliminar producto:", product);
+  }, []);
+
   return (
     <SafeAreaView
       edges={["top", "left", "right"]}
       className="flex-1 bg-[#111312]"
     >
-      <MenuManagementHeader isAddButtonDisabled />
+      <MenuManagementHeader />
 
       <View className="flex-1 flex-row">
         <ManagementCategorySidebar
@@ -77,9 +81,7 @@ export default function MenuManagementScreen() {
             description="Captura la información del producto"
             metaText="Formulario"
           >
-            <MenuItemForm
-              selectedCategoryName={selectedCategory?.name}
-            />
+            <MenuItemForm selectedCategoryName={selectedCategory?.name} />
           </ManagementSection>
 
           <ManagementSection
@@ -91,6 +93,8 @@ export default function MenuManagementScreen() {
           >
             <ManagementProductGrid
               products={visibleProducts}
+              onEditProduct={handleEditProduct}
+              onDeleteProduct={handleDeleteProduct}
             />
           </ManagementSection>
         </View>

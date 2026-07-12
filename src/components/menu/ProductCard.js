@@ -4,7 +4,8 @@ import { View, Text, Image, Pressable } from "react-native";
 // Componente de tarjeta de producto para mostrar la información del producto y permitir agregarlo al pedido
 function ProductCard({ product, width, height, onAddToOrder }) {
   // Calcular la altura de la imagen según la altura de la tarjeta
-  const imageHeight = height <= 320 ? 95 : 130;
+  const imageHeight = Math.round(height * 0.5);
+  const headerHeight = 68;
 
   // Función para manejar el evento de agregar el producto al pedido, utilizando useCallback para memorizar la función y evitar re-renderizados innecesarios
   const handleAddToOrder = useCallback(() => {
@@ -14,86 +15,85 @@ function ProductCard({ product, width, height, onAddToOrder }) {
   return (
     // Contenedor principal de la tarjeta de producto con estilo condicional según el color de la categoría del producto
     <View
+  style={{
+    width,
+    height,
+    overflow: "hidden",
+  }}
+  className={`border-2 border-zinc-900 p-4 ${product.colorClass}`}
+>
+  {/* Encabezado con altura fija */}
+<View
+  style={{ height: headerHeight }}
+  className="flex-row items-start justify-between gap-2"
+>
+  <Text
+    numberOfLines={2}
+    className={`flex-1 font-title text-3xl uppercase leading-8 ${product.textClass}`}
+  >
+    {product.name}
+  </Text>
+
+</View>
+
+{/* Imagen con dimensiones iguales */}
+<View
+  style={{
+    height: imageHeight,
+  }}
+  className="w-full items-center justify-center overflow-hidden"
+>
+  {product.image && (
+    <Image
+      source={product.image}
       style={{
-        width,
-        height,
-        overflow: "hidden",
+        width: "100%",
+        height: "100%",
       }}
-      // Aplicar clases de estilo condicional según el color de la categoría del producto
-      className={`border-4 p-4 ${product.borderClass} ${product.colorClass}`}
-    >
-      {/* Header */}
-      <View className="flex-row justify-between items-start gap-2">
-        {/* Mostrar el nombre del producto con estilo condicional según el color de la categoría del producto */}
-        <Text
-          numberOfLines={2}
-          adjustsFontSizeToFit
-          className={`font-title flex-1 text-left text-3xl uppercase ${product.textClass}`}
-        >
-          {product.name}
-        </Text>
-      </View>
+      resizeMode="cover"
+    />
+  )}
+</View>
 
-      {/* Imagen del producto */}
-      <View className="flex-1 items-center justify-center">
-        {product.image && (
-          <Image
-            source={product.image}
-            style={{
-              width: "80",
-              height: "80",
-            }}
-            resizeMode="contain"
-          />
-        )}
-      </View>
+  {/* Contenido inferior */}
+<View className="flex-1 justify-end">
+  {/* Línea, información y descripción */}
+  <View className="border-t border-zinc-900 pt-3">
+    <View className="flex-row items-center justify-between">
+      <Text
+        className={`font-text text-base uppercase ${product.textClass}`}
+      >
+        Ingredientes básicos
+      </Text>
 
-      {/* Footer */}
-      <View>
-        <View className={`h-[2px] ${product.lineClass} mb-3 opacity-80`} />
-
-        <View className="flex-row justify-between items-start mb-3">
-          <View className="flex-1 pr-3">
-            {/* Mostrar los ingredientes y la descripción del producto con estilo condicional según el color de la categoría del producto */}
-            <Text
-              numberOfLines={1}
-              className={`font-text uppercase text-base ${product.textClass}`}
-            >
-              {product.ingredients}
-            </Text>
-
-            <Text
-              numberOfLines={2}
-              className={`font-information text-base ${
-                product.colorClass === "bg-[#202020]"
-                  ? "text-[#FBF1E4]"
-                  : product.textClass
-              }`}
-            >
-              {product.description}
-            </Text>
-          </View>
-
-          {/* Mostrar el precio del producto con estilo condicional según el color de la categoría del producto */}
-          <Text className={`font-title text-base ${product.textClass}`}>
-            ${product.price}
-          </Text>
-        </View>
-
-        {/* Botón para agregar el producto al pedido con estilo condicional según el color de la categoría del producto */}
-        <Pressable
-          onPress={handleAddToOrder}
-          className={`h-9 items-center justify-center border border-transparent active:opacity-70 ${product.buttonClass}`}
-        >
-          {/* Mostrar el texto del botón con estilo condicional según el color de la categoría del producto */}
-          <Text
-            className={`font-button text-lg uppercase ${product.buttonTextClass}`}
-          >
-            Agregar
-          </Text>
-        </Pressable>
-      </View>
+      <Text
+        className={`font-title text-base ${product.textClass}`}
+      >
+        ${product.price}
+      </Text>
     </View>
+
+    <Text
+      numberOfLines={2}
+      className={`font-information text-base ${product.textClass}`}
+    >
+      {product.description}
+    </Text>
+  </View>
+
+  {/* Botón */}
+  <Pressable
+    onPress={() => onAddToOrder(product)}
+    className={`mt-4 h-10 items-center justify-center ${product.buttonClass}`}
+  >
+    <Text
+      className={`font-button text-lg uppercase ${product.buttonTextClass}`}
+    >
+      Agregar
+    </Text>
+  </Pressable>
+</View>
+</View>
   );
 }
 // Exportar el componente ProductCard utilizando memo para evitar re-renderizados innecesarios cuando las props no cambian

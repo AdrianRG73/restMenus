@@ -26,7 +26,7 @@ function LeftColumnHeader({ onClose }) {
         </Text>
       </Pressable>
 
-      <Text className="text-xl uppercase tracking-widest text-zinc-800">
+      <Text className="font-title uppercase text-zinc-800">
         Productos pendientes
       </Text>
     </View>
@@ -38,7 +38,7 @@ function RightColumnHeader() {
   return (
     //se usa h-16 para mantener la altura consistente con el encabezado de la columna izquierda
     <View className="h-16 items-center justify-center border-b-2 border-zinc-900 bg-[#f2e9d0]">
-      <Text className="text-xl uppercase tracking-widest text-zinc-800">
+      <Text className="font-title uppercase  text-zinc-800">
         Detalle de la orden
       </Text>
     </View>
@@ -107,11 +107,11 @@ function OrderItemCard({ item, onIncrease, onDecrease, onRemove }) {
       <OrderItemImage item={item} />
 
       <View className="ml-4 flex-1">
-        <Text numberOfLines={1} className="text-lg uppercase tracking-widest">
+        <Text numberOfLines={1} className="font-information uppercase tracking-widest">
           {item.name}
         </Text>
 
-        <Text className="mt-1 text-[10px] uppercase tracking-widest text-zinc-500">
+        <Text className="mt-1 font-button text-[10px] uppercase tracking-widest text-zinc-500">
           Etapa: En carrito
         </Text>
 
@@ -127,7 +127,7 @@ function OrderItemCard({ item, onIncrease, onDecrease, onRemove }) {
         <Text className="text-base font-black">{formatPrice(itemTotal)}</Text>
 
         <Pressable onPress={() => onRemove(item.id)} className="mt-8">
-          <Text className="text-[10px] font-black uppercase text-red-700 underline">
+          <Text className="font-body text-[10px] font-black uppercase text-red-700 underline">
             Eliminar
           </Text>
         </Pressable>
@@ -168,7 +168,7 @@ function OrderItemList({ orderItems, onIncrease, onDecrease, onRemove }) {
 function OrderNotesInput() {
   return (
     <View className="border-t-2 border-zinc-900 bg-[#f2e9d0] p-4">
-      <Text className="mb-2 text-[10px] font-black uppercase tracking-widest text-zinc-700">
+      <Text className="mb-2 font-body text-[10px] font-black uppercase tracking-widest text-zinc-700">
         Notas de la orden
       </Text>
 
@@ -177,7 +177,7 @@ function OrderNotesInput() {
         placeholder="Escribe indicaciones para cocina..."
         placeholderTextColor="#71717a"
         textAlignVertical="top"
-        className="min-h-20 border-2 border-zinc-900 bg-white/60 px-4 py-3 text-sm text-zinc-900"
+        className="font-information   min-h-20 border-2 border-zinc-900 bg-white/60 px-4 py-3 text-sm text-zinc-900"
       />
     </View>
   );
@@ -195,33 +195,48 @@ function OrderSummaryHeader({ totalItems }) {
       </View>
 
       <View className="border-2 border-zinc-800 bg-white/50 p-4">
-        <Text className="text-sm uppercase tracking-widest">
+        <Text className="font-body uppercase tracking-widest">
           Alimentos en preparación
         </Text>
 
-        <Text className="mt-1 text-[10px] uppercase text-zinc-500">
+        <Text className="mt-1 font-information text-[10px] uppercase text-zinc-500">
           {totalItems} producto(s) en el carrito
         </Text>
       </View>
+      
+      <View className="mb-4 py-4 flex-row items-center gap-4">
+        <Text className="bg-[#4f6f52] px-4 py-2 text-[10px] font-black uppercase tracking-widest text-white">
+          Servidos
+        </Text>
+
+        <View className="h-[1px] flex-1 bg-zinc-800/30" />
+      </View>
+
+      <View className="border-2 border-zinc-800 bg-white/50 p-4">
+        <Text className="font-body uppercase tracking-widest">
+          Alimentos servidos
+        </Text>
+      </View>
     </View>
+    
   );
 }
 
 // Este componente evita repetir tres veces la misma estructura
 function PriceRow({ label, value, isTotal = false }) {
   return (
-    <View className="mb-4 flex-row justify-between">
+    <View className="font-title mb-4 flex-row justify-between">
       <Text
         className={
           isTotal
-            ? "text-xl uppercase tracking-widest"
-            : "text-[10px] uppercase tracking-widest text-zinc-700"
+            ? "font-information text-xl uppercase tracking-widest"
+            : "font-information text-[10px] uppercase tracking-widest text-zinc-700"
         }
       >
         {label}
       </Text>
 
-      <Text className={isTotal ? "text-2xl font-black" : "font-black"}>
+      <Text className={isTotal ? "text-2xl font-title" : "font-title"}>
         {formatPrice(value)}
       </Text>
     </View>
@@ -239,7 +254,7 @@ function OrderActions({ hasItems, onClear }) {
           hasItems ? "opacity-100" : "opacity-40" // Si no hay productos se desactivan
         }`}
       >
-        <Text className="text-xs font-black uppercase tracking-widest">
+        <Text className="font-but ton uppercase tracking-widest">
           Vaciar
         </Text>
       </Pressable>
@@ -250,7 +265,7 @@ function OrderActions({ hasItems, onClear }) {
           hasItems ? "opacity-100" : "opacity-40"
         }`}
       >
-        <Text className="text-xs font-black uppercase tracking-widest text-white">
+        <Text className="font-button uppercase tracking-widest text-white">
           Confirmar
         </Text>
       </Pressable>

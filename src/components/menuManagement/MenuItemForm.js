@@ -16,18 +16,19 @@ function FormLabel({ children, optional = false }) {
   );
 }
 
-function DisabledTextInput({
+function FormTextInput({
+  value,
+  onChangeText,
   placeholder,
-  multiline = false,
-  keyboardType = "default",
+  keyboardType,
+  multiline,
+  error,
+  disabled,
 }) {
-  const inputHeightClassName = multiline
-    ? "h-16 py-3"
-    : "h-10 py-2";
+  const inputHeightClassName = multiline ? "h-16 py-3" : "h-10 py-2";
 
   return (
     <TextInput
-      editable={false}
       multiline={multiline}
       keyboardType={keyboardType}
       textAlignVertical={multiline ? "top" : "center"}
@@ -45,13 +46,13 @@ export default function MenuItemForm({ selectedCategoryName }) {
         <View className="flex-1">
           <FormLabel>Nombre</FormLabel>
 
-          <DisabledTextInput placeholder="Nombre del producto" />
+          <FormTextInput placeholder="Nombre del producto" />
         </View>
 
         <View className="flex-1">
           <FormLabel optional>Nombre en inglés</FormLabel>
 
-          <DisabledTextInput placeholder="English product name" />
+          <FormTextInput placeholder="English product name" />
         </View>
       </View>
 
@@ -59,20 +60,14 @@ export default function MenuItemForm({ selectedCategoryName }) {
         <View className="w-[150px]">
           <FormLabel>Precio</FormLabel>
 
-          <DisabledTextInput
-            placeholder="0.00"
-            keyboardType="decimal-pad"
-          />
+          <FormTextInput placeholder="0.00" keyboardType="decimal-pad" />
         </View>
 
         <View className="flex-1">
           <FormLabel>Categoría</FormLabel>
 
           <View className="h-10 justify-center border-2 border-[#2b241f] bg-[#111312] px-3">
-            <Text
-              numberOfLines={1}
-              className="font-body text-sm text-zinc-500"
-            >
+            <Text numberOfLines={1} className="font-body text-sm text-zinc-500">
               {selectedCategoryName || "Sin categoría"}
             </Text>
           </View>
@@ -82,7 +77,7 @@ export default function MenuItemForm({ selectedCategoryName }) {
           <FormLabel>Imagen</FormLabel>
 
           <Pressable
-            disabled
+            disabled  
             accessibilityRole="button"
             className="h-10 items-center justify-center border-2 border-zinc-700 bg-zinc-800 opacity-50"
           >
@@ -96,10 +91,7 @@ export default function MenuItemForm({ selectedCategoryName }) {
       <View className="mt-3">
         <FormLabel optional>Descripción</FormLabel>
 
-        <DisabledTextInput
-          multiline
-          placeholder="Descripción del producto"
-        />
+        <FormTextInput multiline placeholder="Descripción del producto" />
       </View>
 
       <View className="mt-4 flex-row justify-end gap-3">

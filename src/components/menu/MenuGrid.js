@@ -3,7 +3,7 @@ import { FlatList, View } from "react-native";
 
 import ProductCard from "./ProductCard";
 
-const PRODUCTS_PER_COLUMN = 2;
+const PRODUCTS_PER_COLUMN = 1;
 
 function groupProductsByColumn(products, itemsPerColumn) {
   const groupedProducts = [];

@@ -1,4 +1,9 @@
-// Funcion para convertir el valor del momto en formato de dinero
 export function formatCurrency(value) {
-  return `$${value.toFixed(2)}`;
+  const numericValue = Number(value);
+
+  if (!Number.isFinite(numericValue)) {
+    return "$0.00";
+  }
+
+  return `$${numericValue.toFixed(2)}`;
 }

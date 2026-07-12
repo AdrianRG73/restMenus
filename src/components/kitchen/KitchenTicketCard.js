@@ -31,13 +31,13 @@ export default function KitchenTicketCard({
       <View className="mb-2 flex-row items-start justify-between">
         <View>
             {/* Mostrar el ID del ticket */}
-          <Text className="text-[10px] font-black uppercase tracking-wider text-zinc-950">
+          <Text className="font-title text-[10px] uppercase tracking-wider text-zinc-950">
             TICKET #{ticket.id}
           </Text>
 
             {/* Mostrar el título del ticket */}
           <Text
-            className="mt-1 text-2xl font-black uppercase text-zinc-950"
+            className="mt-1 text-2xl font-title uppercase text-zinc-950"
             numberOfLines={1}
           >
             {ticket.title}
@@ -46,7 +46,7 @@ export default function KitchenTicketCard({
 
         {/* Mostrar el tiempo del ticket con color según el estado */}
         <Text
-          className={`text-xl font-black ${
+          className={`text-xl font-title ${
             isPreparing ? "text-red-700" : "text-zinc-950"
           }`}
         >
@@ -74,7 +74,7 @@ export default function KitchenTicketCard({
         {/* Mostrar la nota del ticket si existe */}
       {!!ticket.note && (
         <View className="mt-4 bg-black/10 px-3 py-2">
-          <Text className="text-[10px] font-black uppercase italic tracking-wider text-zinc-950">
+          <Text className="text-[10px] font-information uppercase tracking-wider text-zinc-950">
             * {ticket.note}
           </Text>
         </View>
@@ -86,7 +86,7 @@ export default function KitchenTicketCard({
           onPress={() => onBeginPrep(ticket.id)}
           className="mt-5 h-12 items-center justify-center bg-black"
         >
-          <Text className="text-sm font-black uppercase tracking-wide text-white">
+          <Text className="font-button uppercase tracking-wide text-white">
             EN PREPARACION
           </Text>
         </Pressable>
@@ -97,7 +97,7 @@ export default function KitchenTicketCard({
           onPress={() => onCompleteTicket(ticket.id)}
           className="mt-5 h-12 items-center justify-center bg-black"
         >
-          <Text className="text-sm font-black uppercase tracking-wide text-white">
+          <Text className=" font-button uppercase tracking-wide text-white">
             LISTO PARA SERVIR
           </Text>
         </Pressable>
@@ -109,7 +109,7 @@ export default function KitchenTicketCard({
             onPress={() => onRecallTicket(ticket.id)}
             className="h-12 flex-1 items-center justify-center border-2 border-zinc-950"
           >
-            <Text className="text-xs font-black uppercase text-zinc-950">
+            <Text className="text-xs font-button uppercase text-zinc-950">
               REGRESAR A COCINA
             </Text>
           </Pressable>
@@ -118,7 +118,7 @@ export default function KitchenTicketCard({
             onPress={() => onServeAndClear(ticket.id)}
             className="h-12 flex-[2] items-center justify-center bg-black"
           >
-            <Text className="text-xs font-black uppercase tracking-wide text-white">
+            <Text className="font-button uppercase tracking-wide text-white">
                 SERVIR
             </Text>
           </Pressable>

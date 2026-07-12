@@ -17,7 +17,7 @@ export default function KitchenTicketItem({
       <View className="flex-1 flex-row items-center gap-2">
         {/* Mostrar la cantidad y el nombre del producto según si está completado o no */}
         <Text
-          className={`text-sm font-black uppercase text-zinc-950 ${
+          className={`text-sm font-sub uppercase text-black ${
             item.completed ? "line-through opacity-40" : ""
           }`}
         >
@@ -25,7 +25,7 @@ export default function KitchenTicketItem({
         </Text>
 
         <Text
-          className={`flex-1 text-sm font-black uppercase text-zinc-950 ${
+          className={`flex-1 text-sm font-sub uppercase text-zinc-950 ${
             item.completed ? "line-through opacity-40" : ""
           }`}
           numberOfLines={1}

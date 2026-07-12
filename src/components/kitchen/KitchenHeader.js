@@ -7,7 +7,7 @@ export default function KitchenHeader({ stats }) {
     <View className="h-[72px] flex-row items-center justify-between border-b border-[#202833] bg-[#0d1218] px-5">
       <View className="flex-row items-center gap-8">
         <View className="border-r border-[#27313d] pr-8">
-          <Text className="text-2xl font-black uppercase tracking-tight text-[#d19a21]">
+          <Text className="text-2xl font-title uppercase tracking-tight text-[#d19a21]">
             ORDENES PENDIENTES
           </Text>
         </View>

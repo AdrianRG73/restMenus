@@ -1,9 +1,12 @@
+import { formatCurrency } from "../../utils/formatCurrency";
+
 import {
   FlatList,
   Image,
   Text,
   useWindowDimensions,
   View,
+  Pressable,
 } from "react-native";
 import { useCallback, useState } from "react";
 
@@ -31,27 +34,53 @@ function getProductImageSource(product) {
   return product.image ?? null;
 }
 
-function formatPrice(price) {
-  const numericPrice = Number(price);
-
-  if (!Number.isFinite(numericPrice)) {
-    return "$0.00";
-  }
-
-  return `$${numericPrice.toFixed(2)}`;
-}
-
-function ManagementProductCard({ product }) {
+function ManagementProductCard({ product, onEditProduct, onDeleteProduct }) {
   const imageSource = getProductImageSource(product);
   const isUnavailable = product.available === false;
 
+  const handleEditPress = () => {
+    onEditProduct?.(product);
+  };
+
+  const handleDeletePress = () => {
+    onDeleteProduct?.(product);
+  };
+
   return (
     <View className="h-44 overflow-hidden border-2 border-[#2b241f] bg-[#111312]">
-      <View className="h-24 border-b-2 border-[#2b241f] bg-[#0d0f0e]">
+      {/* Contenedor relativo de la imagen */}
+      <View className="relative h-24 border-b-2 border-[#2b241f] bg-[#0d0f0e]">
+        {/* Botones superpuestos */}
+        <View
+          className="absolute right-2 top-2 z-10 flex-row gap-2"
+          style={{ elevation: 5 }}
+        >
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel={`Editar ${product.name}`}
+            hitSlop={6}
+            onPress={handleEditPress}
+            className="h-8 w-8 items-center justify-center border border-[#8094ab] bg-[#496783] active:opacity-70"
+          >
+            <Text className="text-base font-bold text-white">✎</Text>
+          </Pressable>
+
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel={`Eliminar ${product.name}`}
+            hitSlop={6}
+            onPress={handleDeletePress}
+            className="h-8 w-8 items-center justify-center border border-red-800 bg-red-700 active:opacity-70"
+          >
+            <Text className="text-lg font-bold text-white">×</Text>
+          </Pressable>
+        </View>
+
+        {/* Imagen del producto */}
         {imageSource ? (
           <Image
             source={imageSource}
-            resizeMode="contain"
+            resizeMode="cover"
             className="h-full w-full"
           />
         ) : (
@@ -62,6 +91,7 @@ function ManagementProductCard({ product }) {
           </View>
         )}
 
+        {/* Capa de producto no disponible */}
         {isUnavailable ? (
           <View className="absolute inset-0 items-center justify-center bg-black/70">
             <Text className="font-button text-xs uppercase tracking-[2px] text-[#d8a808]">
@@ -71,6 +101,7 @@ function ManagementProductCard({ product }) {
         ) : null}
       </View>
 
+      {/* Información inferior */}
       <View className="flex-1 justify-between px-3 py-2">
         <View>
           <Text
@@ -91,7 +122,7 @@ function ManagementProductCard({ product }) {
         </View>
 
         <Text className="font-title text-lg text-[#d8a808]">
-          {formatPrice(product.price)}
+          {formatCurrency(product.price)}
         </Text>
       </View>
     </View>
@@ -116,7 +147,11 @@ function RowSeparator() {
   return <View style={{ height: GRID_GAP }} />;
 }
 
-export default function ManagementProductGrid({ products }) {
+export default function ManagementProductGrid({
+  products,
+  onEditProduct,
+  onDeleteProduct,
+}) {
   const { width: screenWidth } = useWindowDimensions();
   const [listWidth, setListWidth] = useState(0);
 
@@ -125,9 +160,7 @@ export default function ManagementProductGrid({ products }) {
   const availableGapsWidth = GRID_GAP * (columnCount - 1);
 
   const cardWidth =
-    listWidth > 0
-      ? (listWidth - availableGapsWidth) / columnCount
-      : undefined;
+    listWidth > 0 ? (listWidth - availableGapsWidth) / columnCount : undefined;
 
   const handleListLayout = useCallback((event) => {
     const measuredWidth = event.nativeEvent.layout.width;
@@ -136,23 +169,31 @@ export default function ManagementProductGrid({ products }) {
   }, []);
 
   const renderProduct = useCallback(
-    ({ item }) => {
-      const itemStyle = cardWidth
-        ? {
-            width: cardWidth,
-          }
-        : {
-            flex: 1,
-          };
+  ({ item }) => {
+    const itemStyle = cardWidth
+      ? {
+          width: cardWidth,
+        }
+      : {
+          flex: 1,
+        };
 
-      return (
-        <View style={itemStyle}>
-          <ManagementProductCard product={item} />
-        </View>
-      );
-    },
-    [cardWidth],
-  );
+    return (
+      <View style={itemStyle}>
+        <ManagementProductCard
+          product={item}
+          onEditProduct={onEditProduct}
+          onDeleteProduct={onDeleteProduct}
+        />
+      </View>
+    );
+  },
+  [
+    cardWidth,
+    onEditProduct,
+    onDeleteProduct,
+  ],
+);
 
   const isEmpty = products.length === 0;
 

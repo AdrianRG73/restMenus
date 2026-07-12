@@ -4,14 +4,14 @@ const TABLET_MIN_WIDTH = 768;
 const LARGE_TABLET_MIN_WIDTH = 1100;
 const SIDEBAR_WIDTH = 72;
 
-const GRID_ROWS = 2;
+const GRID_ROWS = 1;
 const HEADER_HEIGHT = 64;
 const CATEGORY_TABS_HEIGHT = 64;
 const CONTENT_VERTICAL_PADDING = 32;
 const GRID_VERTICAL_PADDING = 48;
 
-const MIN_CARD_HEIGHT = 220;
-const MAX_CARD_HEIGHT = 300;
+const MIN_CARD_HEIGHT = 300;
+const MAX_CARD_HEIGHT = 1000;
 
 function clamp(value, min, max) {
   return Math.min(Math.max(value, min), max);

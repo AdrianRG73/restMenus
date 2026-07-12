@@ -6,12 +6,12 @@ export default function KitchenColumn({ title, tickets, children }) {
   return (
     <View className="flex-1">
       <View className="mb-5 flex-row items-center justify-between border-b border-[#232c36] pb-3">
-        <Text className="text-xl font-black uppercase tracking-tight text-zinc-100">
+        <Text className="text-xl font-title uppercase tracking-tight text-zinc-100">
           {title}
         </Text>
 
         <View className="bg-[#202832] px-3 py-1">
-          <Text className="text-[10px] font-black text-zinc-100">
+          <Text className="text-[10px] font-sub text-zinc-100">
             {orderLabel}
           </Text>
         </View>
