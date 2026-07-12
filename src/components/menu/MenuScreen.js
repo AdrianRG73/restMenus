@@ -5,8 +5,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useResponsive } from "../../hooks/useResponsive";
 import { useOrder } from "../../hooks/useOrder";
 
-import { products } from "../../data/products";
-import { categories } from "../../data/categories";
+import { useMenuCatalog } from "../../hooks/useMenuCatalog";
 
 import MenuHeader from "./MenuHeader";
 import MenuSidebar from "./MenuSidebar";
@@ -18,6 +17,8 @@ import OrderBasketModal from "../OrderBasketModal";
 // Se adapta a diferentes tamaños de pantalla, mostrando una barra lateral en tabletas y pestañas de categorías en dispositivos más pequeños.
 
 export default function MenuScreen({ onOpenKitchen, onOpenCheckout, onOpenPrices }) {
+
+  const { products, categories } = useMenuCatalog();
   // Estado para la categoría seleccionada y el estado del modal del pedido
   const [selectedCategoryId, setSelectedCategoryId] = useState(
     categories[0].id,
@@ -51,11 +52,15 @@ export default function MenuScreen({ onOpenKitchen, onOpenCheckout, onOpenPrices
 
   // Filtrar los productos visibles según la categoría seleccionada
   const visibleProducts = useMemo(() => {
-    return products.filter(
-      (product) => product.categoryId === selectedCategoryId,
-    );
-  }, [selectedCategoryId]);
+  return products.filter((product) => {
+    const belongsToSelectedCategory =
+      product.categoryId === selectedCategoryId;
 
+    const isAvailable = product.available !== false;
+
+    return belongsToSelectedCategory && isAvailable;
+  });
+}, [products, selectedCategoryId]);
   // Renderizar la pantalla del menú
   return (
     // Contenedor principal con SafeAreaView para manejar áreas seguras en dispositivos con notch

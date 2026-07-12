@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { View } from "react-native";
 
 import MenuScreen from "../components/menu/MenuScreen";
@@ -7,57 +7,77 @@ import { SCREEN_IDS } from "../constants/navigationTabs";
 
 import CheckoutScreen from "./CheckoutScreen";
 import KitchenBoardScreen from "./KitchenBoardScreen";
+import MenuManagementScreen from "./MenuManagementScreen";
 import PriceDashboardScreen from "./PriceDashboardScreen";
 
 export default function AppNavigator() {
   const [activeScreenId, setActiveScreenId] = useState(SCREEN_IDS.menu);
 
-  const shouldShowBottomNavigation = activeScreenId !== SCREEN_IDS.menu;
+  const shouldShowBottomNavigation =
+    activeScreenId !== SCREEN_IDS.menu;
 
-  const goToMenu = () => {
-    setActiveScreenId(SCREEN_IDS.menu);
-  };
+  const handleScreenChange = useCallback((screenId) => {
+    const validScreenIds = Object.values(SCREEN_IDS);
+    const isValidScreen = validScreenIds.includes(screenId);
 
-  const goToKitchen = () => {
-    setActiveScreenId(SCREEN_IDS.kitchen);
-  };
+    if (!isValidScreen) {
+      console.warn(`Pantalla desconocida: ${screenId}`);
+      return;
+    }
 
-  const goToPrices = () => {
-    setActiveScreenId(SCREEN_IDS.prices);
-  };
-
-  const goToCheckout = () => {
-    setActiveScreenId(SCREEN_IDS.checkout);
-  };
+    setActiveScreenId(screenId);
+  }, []);
 
   return (
     <View className="flex-1 bg-[#111312]">
       <View className="flex-1">
         {activeScreenId === SCREEN_IDS.menu && (
           <MenuScreen
-            onOpenKitchen={goToKitchen}
-            onOpenPrices={goToPrices}
-            onOpenCheckout={goToCheckout}
+            onOpenKitchen={() =>
+              handleScreenChange(SCREEN_IDS.kitchen)
+            }
+            onOpenPrices={() =>
+              handleScreenChange(SCREEN_IDS.prices)
+            }
+            onOpenCheckout={() =>
+              handleScreenChange(SCREEN_IDS.checkout)
+            }
           />
         )}
 
         {activeScreenId === SCREEN_IDS.kitchen && (
-          <KitchenBoardScreen onBackToMenu={goToMenu} />
+          <KitchenBoardScreen
+            onBackToMenu={() =>
+              handleScreenChange(SCREEN_IDS.menu)
+            }
+          />
         )}
 
         {activeScreenId === SCREEN_IDS.prices && (
-          <PriceDashboardScreen onBackToMenu={goToMenu} />
+          <PriceDashboardScreen
+            onBackToMenu={() =>
+              handleScreenChange(SCREEN_IDS.menu)
+            }
+          />
         )}
 
         {activeScreenId === SCREEN_IDS.checkout && (
-          <CheckoutScreen onBackToMenu={goToMenu} />
+          <CheckoutScreen
+            onBackToMenu={() =>
+              handleScreenChange(SCREEN_IDS.menu)
+            }
+          />
+        )}
+
+        {activeScreenId === SCREEN_IDS.menuManagement && (
+          <MenuManagementScreen />
         )}
       </View>
 
       {shouldShowBottomNavigation && (
         <BottomNavigation
           activeScreenId={activeScreenId}
-          onScreenChange={setActiveScreenId}
+          onScreenChange={handleScreenChange}
         />
       )}
     </View>

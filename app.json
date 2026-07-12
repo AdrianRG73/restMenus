@@ -16,7 +16,15 @@
       "predictiveBackGestureEnabled": false
     },
     "plugins": [
-      "expo-font"
+      "expo-font",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Permite que restMenus acceda a tus fotos para seleccionar imágenes de productos.",
+          "cameraPermission": false,
+          "microphonePermission": false
+        }
+      ]
     ]
   }
 }

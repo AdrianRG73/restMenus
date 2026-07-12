@@ -4,6 +4,7 @@ import { Text, View } from "react-native";
 import { useFonts } from "expo-font";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
+import { MenuCatalogProvider } from "./src/context/MenuCatalogContext";
 import AppNavigator from "./src/screens/AppNavigator";
 
 const { FONT_ASSETS } = require("./src/theme/fontAssets");
@@ -12,7 +13,7 @@ function AppLoadingScreen() {
   return (
     <View className="flex-1 items-center justify-center bg-zinc-950">
       <Text className="font-body text-sm text-zinc-400">
-        Loading fonts...
+        Cargando fuentes...
       </Text>
     </View>
   );
@@ -27,7 +28,9 @@ export default function App() {
 
   return (
     <SafeAreaProvider>
-      <AppNavigator />
+      <MenuCatalogProvider>
+        <AppNavigator />
+      </MenuCatalogProvider>
     </SafeAreaProvider>
   );
 }

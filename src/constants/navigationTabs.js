@@ -1,26 +1,32 @@
-// Identificadores para cada pantalla
+// Identificadores internos de las pantallas.
 export const SCREEN_IDS = Object.freeze({
   menu: "menu",
   kitchen: "kitchen",
-  prices: "prices",
   checkout: "checkout",
+  prices: "prices",
+  menuManagement: "menuManagement",
 });
 
-//Define los botones de la barra de navegacion
+// Botones visibles en la barra de navegación inferior.
 export const NAVIGATION_TABS = Object.freeze([
   {
     id: SCREEN_IDS.kitchen,
-    label: "DASH",
+    label: "COCINA",
     symbol: "▦",
   },
   {
     id: SCREEN_IDS.checkout,
-    label: "CHECKOUT",
+    label: "COBRO",
     symbol: "▣",
   },
   {
     id: SCREEN_IDS.prices,
-    label: "PRICES",
-    symbol: "▣",
+    label: "PRECIOS",
+    symbol: "$",
+  },
+  {
+    id: SCREEN_IDS.menuManagement,
+    label: "GESTIÓN",
+    symbol: "▤",
   },
 ]);
