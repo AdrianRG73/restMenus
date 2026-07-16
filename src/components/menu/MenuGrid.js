@@ -36,6 +36,8 @@ export default function MenuGrid({
       showsHorizontalScrollIndicator={false}
       showsVerticalScrollIndicator={false}
       className="flex-1"
+      snapToInterval={cardWidth + gap}
+      decelerationRate="fast"
       contentContainerStyle={{
         paddingTop: 24,
         paddingBottom: 24,
@@ -43,7 +45,7 @@ export default function MenuGrid({
       }}
       ItemSeparatorComponent={() => <View style={{ width: gap }} />}
       renderItem={({ item: productColumn }) => (
-        <View style={{ width: cardWidth, gap }}>
+        <View style={{ width: cardWidth }}>
           {productColumn.map((product) => (
             <ProductCard
               key={product.id}

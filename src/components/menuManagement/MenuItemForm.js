@@ -22,13 +22,15 @@ function FormTextInput({
   placeholder,
   keyboardType,
   multiline,
-  error,
-  disabled,
+  disabled = false,
 }) {
   const inputHeightClassName = multiline ? "h-16 py-3" : "h-10 py-2";
 
   return (
     <TextInput
+      value={value}
+      onChangeText={onChangeText}
+      editable={!disabled}
       multiline={multiline}
       keyboardType={keyboardType}
       textAlignVertical={multiline ? "top" : "center"}
@@ -39,7 +41,7 @@ function FormTextInput({
   );
 }
 
-export default function MenuItemForm({ selectedCategoryName }) {
+export default function MenuItemForm({ selectedCategoryName, onCancel }) {
   return (
     <View>
       <View className="flex-row gap-4">
@@ -77,7 +79,7 @@ export default function MenuItemForm({ selectedCategoryName }) {
           <FormLabel>Imagen</FormLabel>
 
           <Pressable
-            disabled  
+            disabled
             accessibilityRole="button"
             className="h-10 items-center justify-center border-2 border-zinc-700 bg-zinc-800 opacity-50"
           >
@@ -96,10 +98,10 @@ export default function MenuItemForm({ selectedCategoryName }) {
 
       <View className="mt-4 flex-row justify-end gap-3">
         <Pressable
-          disabled
-          className="h-9 min-w-[120px] items-center justify-center border-2 border-zinc-700 bg-transparent opacity-50"
+          onPress={onCancel}
+          className="h-9 min-w-[120px] items-center justify-center border-2 border-[#3b3024] bg-transparent"
         >
-          <Text className="font-button text-[10px] uppercase tracking-[2px] text-zinc-600">
+          <Text className="font-button text-[10px] uppercase tracking-[2px] text-[#f2e9d0]">
             Cancelar
           </Text>
         </Pressable>

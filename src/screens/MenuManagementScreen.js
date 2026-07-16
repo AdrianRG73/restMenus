@@ -7,6 +7,7 @@ import ManagementProductGrid from "../components/menuManagement/ManagementProduc
 import ManagementSection from "../components/menuManagement/ManagementSection";
 import MenuItemForm from "../components/menuManagement/MenuItemForm";
 import MenuManagementHeader from "../components/menuManagement/MenuManagementHeader";
+
 import { useMenuCatalog } from "../hooks/useMenuCatalog";
 
 export default function MenuManagementScreen() {
@@ -16,6 +17,9 @@ export default function MenuManagementScreen() {
 
   const [selectedCategoryId, setSelectedCategoryId] =
     useState(initialCategoryId);
+
+  const [isNewProductFormVisible, setIsNewProductFormVisible] =
+    useState(false);
 
   const selectedCategory = useMemo(() => {
     return categories.find((category) => {
@@ -43,14 +47,13 @@ export default function MenuManagementScreen() {
     setSelectedCategoryId(categoryId);
   }, []);
 
-  const visibleProductCountText =
-    visibleProducts.length === 1
-      ? "1 producto"
-      : `${visibleProducts.length} productos`;
+  const handleStartNewProduct = useCallback(() => {
+    setIsNewProductFormVisible(true);
+  }, []);
 
-  const sectionTitle = selectedCategory
-    ? `Productos de ${selectedCategory.name}`
-    : "Productos";
+  const handleCloseNewProductForm = useCallback(() => {
+    setIsNewProductFormVisible(false);
+  }, []);
 
   const handleEditProduct = useCallback((product) => {
     console.log("Editar producto:", product);
@@ -60,12 +63,27 @@ export default function MenuManagementScreen() {
     console.log("Eliminar producto:", product);
   }, []);
 
+  const visibleProductCountText =
+    visibleProducts.length === 1
+      ? "1 producto"
+      : `${visibleProducts.length} productos`;
+
+  const sectionTitle = selectedCategory
+    ? `Productos de ${selectedCategory.name}`
+    : "Productos";
+
+  const shouldDisableNewProductButton =
+    !selectedCategoryId || isNewProductFormVisible;
+
   return (
     <SafeAreaView
       edges={["top", "left", "right"]}
       className="flex-1 bg-[#111312]"
     >
-      <MenuManagementHeader />
+      <MenuManagementHeader
+        onStartNewProduct={handleStartNewProduct}
+        isAddButtonDisabled={shouldDisableNewProductButton}
+      />
 
       <View className="flex-1 flex-row">
         <ManagementCategorySidebar
@@ -76,19 +94,24 @@ export default function MenuManagementScreen() {
         />
 
         <View className="flex-1 p-4">
-          <ManagementSection
-            title="Nuevo producto"
-            description="Captura la información del producto"
-            metaText="Formulario"
-          >
-            <MenuItemForm selectedCategoryName={selectedCategory?.name} />
-          </ManagementSection>
+          {isNewProductFormVisible && (
+            <ManagementSection
+              title="Nuevo producto"
+              description="Captura la información del producto"
+              metaText="Formulario"
+            >
+              <MenuItemForm
+                selectedCategoryName={selectedCategory?.name}
+                onCancel={handleCloseNewProductForm}
+              />
+            </ManagementSection>
+          )}
 
           <ManagementSection
             title={sectionTitle}
             description="Catálogo de la categoría seleccionada"
             metaText={visibleProductCountText}
-            className="mt-4 flex-1"
+            className={isNewProductFormVisible ? "mt-4 flex-1" : "flex-1"}
             contentClassName="flex-1 p-3"
           >
             <ManagementProductGrid

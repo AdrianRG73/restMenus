@@ -46,8 +46,6 @@ export default function MenuHeader({
 
       <View className="flex-row items-center gap-3">
         <HeaderShortcutButton label="Dash" onPress={onOpenKitchen} />
-        <HeaderShortcutButton label="Checkout" onPress={onOpenCheckout} />
-        <HeaderShortcutButton label="Prices" onPress={onOpenPrices} />
       </View>
     </View>
   );

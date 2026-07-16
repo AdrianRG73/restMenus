@@ -35,7 +35,7 @@ export default function MenuSidebar({
             >
               <Text
                 className={`mt-5 text-[10px] -rotate-90 font-black uppercase tracking-widest ${
-                  isActive ? "text-yellow-400" : "text-zinc-500"
+                  isActive ? "text-yellow-400 underline" : "text-zinc-500"
                 }`}
               >
                 {category.name}

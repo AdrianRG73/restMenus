@@ -10,11 +10,6 @@ export const SCREEN_IDS = Object.freeze({
 // Botones visibles en la barra de navegación inferior.
 export const NAVIGATION_TABS = Object.freeze([
   {
-    id: SCREEN_IDS.kitchen,
-    label: "COCINA",
-    symbol: "▦",
-  },
-  {
     id: SCREEN_IDS.checkout,
     label: "COBRO",
     symbol: "▣",
