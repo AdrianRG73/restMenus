@@ -6,112 +6,110 @@ import {
   FlatList,
   Image,
   TextInput,
+  useWindowDimensions,
 } from "react-native";
 
 function formatPrice(value) {
-  return `$${value.toFixed(2)}`; // Formato de precio con dos decimales y símbolo
+  if (typeof value !== "number") {
+    return "$0.00";
+  }
+
+  return `$${value.toFixed(2)}`;
 }
 
-// Componente para mostrar el encabezado de la columna izquierda
 function LeftColumnHeader({ onClose }) {
   return (
-    //se usa h-16 para mantener la altura consistente con el encabezado de la columna derecha
-    <View className="relative h-16 items-center justify-center border-b-2 border-zinc-900 bg-[#f2e9d0]">
+    <View className="relative h-14 items-center justify-center border-b-2 border-zinc-900 bg-[#f2e9d0]">
       <Pressable
         onPress={onClose}
-        className="absolute left-0 h-full w-24 items-center justify-center active:opacity-70" // Ajusta el ancho del botón a la izquierda sin afectar el centrado del título
+        className="absolute left-0 h-full w-24 items-center justify-center active:opacity-70"
       >
-        <Text className="text-xs font-black uppercase tracking-widest text-zinc-950">
+        <Text className="font-button text-[10px] uppercase tracking-widest text-zinc-950">
           Atrás
         </Text>
       </Pressable>
 
-      <Text className="font-title uppercase text-zinc-800">
+      <Text className="font-title text-2xl uppercase text-zinc-800">
         Productos pendientes
       </Text>
     </View>
   );
 }
 
-// Componente para mostrar el encabezado de la columna derecha
 function RightColumnHeader() {
   return (
-    //se usa h-16 para mantener la altura consistente con el encabezado de la columna izquierda
-    <View className="h-16 items-center justify-center border-b-2 border-zinc-900 bg-[#f2e9d0]">
-      <Text className="font-title uppercase  text-zinc-800">
+    <View className="h-14 items-center justify-center border-b-2 border-zinc-900 bg-[#f2e9d0]">
+      <Text className="font-title text-2xl uppercase text-zinc-800">
         Detalle de la orden
       </Text>
     </View>
   );
 }
 
-// Componente para mostrar un mensaje cuando no hay productos en el carrito
 function EmptyOrderMessage() {
   return (
-    <View className="flex-1 items-center justify-center">
-      <Text className="text-lg uppercase tracking-widest text-zinc-700">
+    <View className="flex-1 items-center justify-center px-6">
+      <Text className="text-center font-body text-base uppercase tracking-widest text-zinc-700">
         No hay alimentos en el carrito
       </Text>
     </View>
   );
 }
 
-// Componente para mostrar la imagen del producto en el carrito
 function OrderItemImage({ item }) {
   return (
-    <View className="h-16 w-16 items-center justify-center border-2 border-zinc-700 bg-[#f2e9d0]">
+    <View className="h-12 w-12 items-center justify-center border-2 border-zinc-700 bg-[#f2e9d0]">
       {item.image ? (
-        <Image
-          source={item.image}
-          className="h-12 w-12"
-          resizeMode="contain"
-        />
+        <Image source={item.image} className="h-10 w-10" resizeMode="contain" />
       ) : (
-        <Text className="text-lg font-black">{item.name.charAt(0)}</Text>
+        <Text className="font-title text-base uppercase text-zinc-900">
+          {item.name.charAt(0)}
+        </Text>
       )}
     </View>
   );
 }
 
-//Controla la cantidad de cada producto en el carrito y permite aumentar o disminuir la cantidad
 function QuantityControls({ itemId, quantity, onIncrease, onDecrease }) {
   return (
-    <View className="mt-3 flex-row">
+    <View className="mt-2 flex-row">
       <Pressable
-        onPress={() => onDecrease(itemId)} // Llama a la función onDecrease con el ID del producto cuando se presiona el botón de disminuir
-        className="h-8 w-10 items-center justify-center border border-zinc-800"
+        onPress={() => onDecrease(itemId)}
+        className="h-7 w-9 items-center justify-center border border-zinc-800"
       >
-        <Text className="font-black">−</Text>
+        <Text className="font-button text-xs text-zinc-900">−</Text>
       </Pressable>
 
-      <View className="h-8 w-10 items-center justify-center border-y border-zinc-800">
-        <Text className="font-black">{quantity}</Text>
+      <View className="h-7 w-9 items-center justify-center border-y border-zinc-800 bg-white/60">
+        <Text className="font-bodyBold text-xs text-zinc-900">{quantity}</Text>
       </View>
 
       <Pressable
-        onPress={() => onIncrease(itemId)} // Llama a la función onIncrease con el ID del producto cuando se presiona el botón de aumentar
-        className="h-8 w-10 items-center justify-center border border-zinc-800"
+        onPress={() => onIncrease(itemId)}
+        className="h-7 w-9 items-center justify-center border border-zinc-800"
       >
-        <Text className="font-black">+</Text>
+        <Text className="font-button text-xs text-zinc-900">+</Text>
       </Pressable>
     </View>
   );
 }
 
-// Cada componeente de la lista de productos en el carrito
 function OrderItemCard({ item, onIncrease, onDecrease, onRemove }) {
-  const itemTotal = item.price * item.quantity; // Calcular el total del producto (precio * cantidad)
+  const itemTotal = item.price * item.quantity;
 
   return (
-    <View className="min-h-24 flex-row items-center border-2 border-zinc-800 bg-white/70 p-4">
+    <View className="min-h-[76px] flex-row items-center border-2 border-zinc-800 bg-white/70 p-2">
       <OrderItemImage item={item} />
 
-      <View className="ml-4 flex-1">
-        <Text numberOfLines={1} className="font-information uppercase tracking-widest">
+      <View className="ml-3 flex-1">
+        <Text
+          numberOfLines={1}
+          className="font-bodyBold text-xs uppercase tracking-widest text-zinc-900"
+        >
           {item.name}
         </Text>
 
-        <Text className="mt-1 font-button text-[10px] uppercase tracking-widest text-zinc-500">
+        <Text className="mt-1 font-button text-[8px] uppercase tracking-widest text-zinc-500">
           Etapa: En carrito
         </Text>
 
@@ -124,10 +122,12 @@ function OrderItemCard({ item, onIncrease, onDecrease, onRemove }) {
       </View>
 
       <View className="items-end">
-        <Text className="text-base font-black">{formatPrice(itemTotal)}</Text>
+        <Text className="font-title text-xl text-zinc-900">
+          {formatPrice(itemTotal)}
+        </Text>
 
-        <Pressable onPress={() => onRemove(item.id)} className="mt-8">
-          <Text className="font-body text-[10px] font-black uppercase text-red-700 underline">
+        <Pressable onPress={() => onRemove(item.id)} className="mt-3">
+          <Text className="font-bodyBold text-[9px] uppercase text-red-700 underline">
             Eliminar
           </Text>
         </Pressable>
@@ -136,21 +136,20 @@ function OrderItemCard({ item, onIncrease, onDecrease, onRemove }) {
   );
 }
 
-// Componente para mostrar la lista de productos en el carrito
 function OrderItemList({ orderItems, onIncrease, onDecrease, onRemove }) {
   if (orderItems.length === 0) {
-    return <EmptyOrderMessage />; // Mostrar mensaje cuando no hay productos en el carrito
+    return <EmptyOrderMessage />;
   }
 
-  return ( // Renderizar la lista de productos en el carrito
+  return (
     <FlatList
       data={orderItems}
       keyExtractor={(item) => item.id}
       showsVerticalScrollIndicator={false}
       keyboardShouldPersistTaps="handled"
       contentContainerStyle={{
-        paddingBottom: 24,
-        gap: 16,
+        paddingBottom: 12,
+        gap: 8,
       }}
       renderItem={({ item }) => (
         <OrderItemCard
@@ -164,11 +163,10 @@ function OrderItemList({ orderItems, onIncrease, onDecrease, onRemove }) {
   );
 }
 
-// Componente para ingresar notas adicionales para la orden fuera de la FlatList para que este fijo
 function OrderNotesInput() {
   return (
-    <View className="border-t-2 border-zinc-900 bg-[#f2e9d0] p-4">
-      <Text className="mb-2 font-body text-[10px] font-black uppercase tracking-widest text-zinc-700">
+    <View className="h-24 border-t-2 border-zinc-900 bg-[#f2e9d0] p-3">
+      <Text className="mb-1 font-button text-[9px] uppercase tracking-widest text-zinc-700">
         Notas de la orden
       </Text>
 
@@ -177,95 +175,114 @@ function OrderNotesInput() {
         placeholder="Escribe indicaciones para cocina..."
         placeholderTextColor="#71717a"
         textAlignVertical="top"
-        className="font-information   min-h-20 border-2 border-zinc-900 bg-white/60 px-4 py-3 text-sm text-zinc-900"
+        className="flex-1 border-2 border-zinc-900 bg-white/60 px-3 py-2 font-body text-sm text-zinc-900"
       />
+    </View>
+  );
+}
+
+function StatusBlock({ label, title, description, variant = "warning" }) {
+  const badgeClass =
+    variant === "success"
+      ? "bg-[#4f6f52] text-white"
+      : "bg-yellow-600 text-white";
+
+  return (
+    <View className="mb-3">
+      <View className="mb-2 flex-row items-center gap-2">
+        <Text
+          className={`px-3 py-1 font-button text-[8px] uppercase tracking-widest ${badgeClass}`}
+        >
+          {label}
+        </Text>
+
+        <View className="h-[1px] flex-1 bg-zinc-800/30" />
+      </View>
+
+      <View className="border-2 border-zinc-800 bg-white/50 px-3 py-2">
+        <Text className="font-bodyBold text-xs uppercase tracking-widest text-zinc-900">
+          {title}
+        </Text>
+
+        {description ? (
+          <Text className="mt-1 font-body text-[9px] uppercase text-zinc-500">
+            {description}
+          </Text>
+        ) : null}
+      </View>
     </View>
   );
 }
 
 function OrderSummaryHeader({ totalItems }) {
   return (
-    <View className="mb-8">
-      <View className="mb-4 flex-row items-center gap-4">
-        <Text className="bg-yellow-600 px-4 py-2 text-[10px] font-black uppercase tracking-widest text-white">
-          En preparación
-        </Text>
+    <View>
+      <StatusBlock
+        label="En preparación"
+        title="Alimentos en preparación"
+        description={`${totalItems} producto(s) en el carrito`}
+        variant="warning"
+      />
 
-        <View className="h-[1px] flex-1 bg-zinc-800/30" />
-      </View>
-
-      <View className="border-2 border-zinc-800 bg-white/50 p-4">
-        <Text className="font-body uppercase tracking-widest">
-          Alimentos en preparación
-        </Text>
-
-        <Text className="mt-1 font-information text-[10px] uppercase text-zinc-500">
-          {totalItems} producto(s) en el carrito
-        </Text>
-      </View>
-      
-      <View className="mb-4 py-4 flex-row items-center gap-4">
-        <Text className="bg-[#4f6f52] px-4 py-2 text-[10px] font-black uppercase tracking-widest text-white">
-          Servidos
-        </Text>
-
-        <View className="h-[1px] flex-1 bg-zinc-800/30" />
-      </View>
-
-      <View className="border-2 border-zinc-800 bg-white/50 p-4">
-        <Text className="font-body uppercase tracking-widest">
-          Alimentos servidos
-        </Text>
-      </View>
+      <StatusBlock
+        label="Servidos"
+        title="Alimentos servidos"
+        description="Sin productos servidos"
+        variant="success"
+      />
     </View>
-    
   );
 }
 
-// Este componente evita repetir tres veces la misma estructura
 function PriceRow({ label, value, isTotal = false }) {
   return (
-    <View className="font-title mb-4 flex-row justify-between">
+    <View className="mb-2 flex-row items-center justify-between">
       <Text
         className={
           isTotal
-            ? "font-information text-xl uppercase tracking-widest"
-            : "font-information text-[10px] uppercase tracking-widest text-zinc-700"
+            ? "font-bodyBold text-sm uppercase tracking-widest text-zinc-900"
+            : "font-body text-[9px] uppercase tracking-widest text-zinc-700"
         }
       >
         {label}
       </Text>
 
-      <Text className={isTotal ? "text-2xl font-title" : "font-title"}>
+      <Text
+        className={
+          isTotal
+            ? "font-title text-2xl text-zinc-900"
+            : "font-title text-xl text-zinc-900"
+        }
+      >
         {formatPrice(value)}
       </Text>
     </View>
   );
 }
 
-// Boton Vaciar y confirmar
-function OrderActions({ hasItems, onClear }) {
+function OrderActions({ hasItems, onClear, onConfirm }) {
   return (
     <View className="flex-row gap-3">
       <Pressable
         onPress={onClear}
-        disabled={!hasItems} // Para no confirmar o vaciar una orden vacia
-        className={`h-12 flex-1 items-center justify-center border-2 border-zinc-900 ${
-          hasItems ? "opacity-100" : "opacity-40" // Si no hay productos se desactivan
+        disabled={!hasItems}
+        className={`h-10 flex-1 items-center justify-center border-2 border-zinc-900 bg-[#f2e9d0] ${
+          hasItems ? "opacity-100" : "opacity-40"
         }`}
       >
-        <Text className="font-but ton uppercase tracking-widest">
+        <Text className="font-button text-[10px] uppercase tracking-widest text-zinc-900">
           Vaciar
         </Text>
       </Pressable>
 
       <Pressable
+        onPress={onConfirm}
         disabled={!hasItems}
-        className={`h-12 flex-1 items-center justify-center bg-zinc-900 ${
+        className={`h-10 flex-1 items-center justify-center border-2 border-zinc-900 bg-zinc-900 ${
           hasItems ? "opacity-100" : "opacity-40"
         }`}
       >
-        <Text className="font-button uppercase tracking-widest text-white">
+        <Text className="font-button text-[10px] uppercase tracking-widest text-white">
           Confirmar
         </Text>
       </Pressable>
@@ -273,36 +290,38 @@ function OrderActions({ hasItems, onClear }) {
   );
 }
 
-// Muestra el detalle del pedido a la derecha
 function OrderSummary({
   totalItems,
   orderSubtotal,
   taxAmount,
   orderTotal,
   onClear,
+  onConfirm,
 }) {
   const hasItems = totalItems > 0;
 
   return (
-    // Columna principal
-    <View className="flex-1 p-6"> 
+    <View className="flex-1 p-3">
       <OrderSummaryHeader totalItems={totalItems} />
 
-      <View className="mt-auto">
+      <View className="mt-auto border-t-2 border-zinc-900 pt-3">
         <PriceRow label="Subtotal" value={orderSubtotal} />
         <PriceRow label="IVA" value={taxAmount} />
 
-        <View className="mb-4">
+        <View className="mb-2">
           <PriceRow label="Total" value={orderTotal} isTotal />
         </View>
 
-        <OrderActions hasItems={hasItems} onClear={onClear} />
+        <OrderActions
+          hasItems={hasItems}
+          onClear={onClear}
+          onConfirm={onConfirm}
+        />
       </View>
     </View>
   );
 }
 
-// Organiza la pantalla
 export default function OrderBasketModal({
   visible,
   onClose,
@@ -315,7 +334,12 @@ export default function OrderBasketModal({
   onDecrease,
   onRemove,
   onClear,
+  onConfirm,
 }) {
+  const { width, height } = useWindowDimensions();
+
+  const modalWidth = Math.min(width * 0.86, 940);
+  const modalHeight = Math.min(height * 0.78, 560);
   return (
     <Modal
       visible={visible}
@@ -323,13 +347,19 @@ export default function OrderBasketModal({
       transparent
       onRequestClose={onClose}
     >
-      <View className="flex-1 items-center justify-center bg-black/60 p-6">
-        <View className="h-full max-h-[700px] w-full max-w-[1100px] overflow-hidden rounded-xl border-2 border-zinc-900 bg-[#f2e9d0]">
+      <View className="flex-1 items-center justify-center bg-black/60 px-4 py-3">
+        <View
+          style={{
+            width: modalWidth,
+            height: modalHeight,
+          }}
+          className="overflow-hidden rounded-xl border-2 border-zinc-900 bg-[#f2e9d0]"
+        >
           <View className="flex-1 flex-row">
-            <View className="flex-1 border-r-2 border-zinc-900 bg-[#f2e9d0]">
+            <View className="flex-[1.12] border-r-2 border-zinc-900 bg-[#f2e9d0]">
               <LeftColumnHeader onClose={onClose} />
 
-              <View className="flex-1 p-6">
+              <View className="flex-1 p-3">
                 <OrderItemList
                   orderItems={orderItems}
                   onIncrease={onIncrease}
@@ -341,7 +371,7 @@ export default function OrderBasketModal({
               <OrderNotesInput />
             </View>
 
-            <View className="flex-1 bg-orange-400/80">
+            <View className="flex-[0.88] bg-orange-400/80">
               <RightColumnHeader />
 
               <OrderSummary
@@ -350,6 +380,7 @@ export default function OrderBasketModal({
                 taxAmount={taxAmount}
                 orderTotal={orderTotal}
                 onClear={onClear}
+                onConfirm={onConfirm}
               />
             </View>
           </View>

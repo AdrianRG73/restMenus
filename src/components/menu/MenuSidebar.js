@@ -1,4 +1,4 @@
-import {Image, View, Text, Pressable } from "react-native";
+import { Image, View, Text, Pressable } from "react-native";
 
 import SidebarOrderButton from "./SidebarOrderButton";
 
@@ -33,13 +33,21 @@ export default function MenuSidebar({
               onPress={() => onSelectCategory(category.id)}
               className="items-center justify-center active:opacity-70"
             >
-              <Text
-                className={`mt-5 text-[10px] -rotate-90 font-black uppercase tracking-widest ${
-                  isActive ? "text-yellow-400 underline" : "text-zinc-500"
-                }`}
-              >
-                {category.name}
-              </Text>
+              <View className="mt-5 -rotate-90 items-center">
+                <Text
+                  className={`text-[10px] font-black uppercase tracking-widest ${
+                    isActive ? "text-yellow-400" : "text-zinc-500"
+                  }`}
+                >
+                  {category.name}
+                </Text>
+
+                <View
+                  className={`mt-1 h-[2px] w-12 ${
+                    isActive ? "bg-yellow-400" : "bg-transparent"
+                  }`}
+                />
+              </View>
             </Pressable>
           );
         })}

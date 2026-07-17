@@ -33,7 +33,7 @@ export default function CategoryTabs({
             {/* Mostrar el nombre de la categoría con estilo condicional según si está activa o no */}
 
             <Text
-              className={`text-xs font-black uppercase tracking-widest ${
+              className={`text-base font-button uppercase tracking-widest ${
                 isActive ? "text-yellow-400" : "text-zinc-950"
               }`}
             >

@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useState } from "react";
-import { View } from "react-native";
+import { View, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import ManagementCategorySidebar from "../components/menuManagement/ManagementCategorySidebar";
@@ -18,8 +18,7 @@ export default function MenuManagementScreen() {
   const [selectedCategoryId, setSelectedCategoryId] =
     useState(initialCategoryId);
 
-  const [isNewProductFormVisible, setIsNewProductFormVisible] =
-    useState(false);
+  const [isNewProductFormVisible, setIsNewProductFormVisible] = useState(false);
 
   const selectedCategory = useMemo(() => {
     return categories.find((category) => {
@@ -99,6 +98,8 @@ export default function MenuManagementScreen() {
               title="Nuevo producto"
               description="Captura la información del producto"
               metaText="Formulario"
+              className="mb-4"
+              contentClassName="pb-6"
             >
               <MenuItemForm
                 selectedCategoryName={selectedCategory?.name}
@@ -111,8 +112,6 @@ export default function MenuManagementScreen() {
             title={sectionTitle}
             description="Catálogo de la categoría seleccionada"
             metaText={visibleProductCountText}
-            className={isNewProductFormVisible ? "mt-4 flex-1" : "flex-1"}
-            contentClassName="flex-1 p-3"
           >
             <ManagementProductGrid
               products={visibleProducts}

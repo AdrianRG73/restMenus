@@ -13,8 +13,13 @@ import PriceDashboardScreen from "./PriceDashboardScreen";
 export default function AppNavigator() {
   const [activeScreenId, setActiveScreenId] = useState(SCREEN_IDS.menu);
 
+  const SCREENS_WITHOUT_BOTTOM_NAVIGATION = [];
+    SCREEN_IDS.menu,
+    SCREEN_IDS.kitchen
+
+  // Para pruebas poner !SCREENS_WITHOUT_BOTTOM_NAVIGATION
   const shouldShowBottomNavigation =
-    activeScreenId !== SCREEN_IDS.menu;
+  SCREENS_WITHOUT_BOTTOM_NAVIGATION.includes(activeScreenId);
 
   const handleScreenChange = useCallback((screenId) => {
     const validScreenIds = Object.values(SCREEN_IDS);
@@ -33,39 +38,27 @@ export default function AppNavigator() {
       <View className="flex-1">
         {activeScreenId === SCREEN_IDS.menu && (
           <MenuScreen
-            onOpenKitchen={() =>
-              handleScreenChange(SCREEN_IDS.kitchen)
-            }
-            onOpenPrices={() =>
-              handleScreenChange(SCREEN_IDS.prices)
-            }
-            onOpenCheckout={() =>
-              handleScreenChange(SCREEN_IDS.checkout)
-            }
+            onOpenKitchen={() => handleScreenChange(SCREEN_IDS.kitchen)}
+            onOpenPrices={() => handleScreenChange(SCREEN_IDS.prices)}
+            onOpenCheckout={() => handleScreenChange(SCREEN_IDS.checkout)}
           />
         )}
 
         {activeScreenId === SCREEN_IDS.kitchen && (
           <KitchenBoardScreen
-            onBackToMenu={() =>
-              handleScreenChange(SCREEN_IDS.menu)
-            }
+            onBackToMenu={() => handleScreenChange(SCREEN_IDS.menu)}
           />
         )}
 
         {activeScreenId === SCREEN_IDS.prices && (
           <PriceDashboardScreen
-            onBackToMenu={() =>
-              handleScreenChange(SCREEN_IDS.menu)
-            }
+            onBackToMenu={() => handleScreenChange(SCREEN_IDS.menu)}
           />
         )}
 
         {activeScreenId === SCREEN_IDS.checkout && (
           <CheckoutScreen
-            onBackToMenu={() =>
-              handleScreenChange(SCREEN_IDS.menu)
-            }
+            onBackToMenu={() => handleScreenChange(SCREEN_IDS.menu)}
           />
         )}
 

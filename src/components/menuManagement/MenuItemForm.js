@@ -24,7 +24,7 @@ function FormTextInput({
   multiline,
   disabled = false,
 }) {
-  const inputHeightClassName = multiline ? "h-16 py-3" : "h-10 py-2";
+  const inputHeightClassName = multiline ? "h-16 py-" : "h-10 py-2";
 
   return (
     <TextInput

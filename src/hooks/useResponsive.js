@@ -11,8 +11,8 @@ const GRID_VERTICAL_PADDING = 48;
 const MIN_CARD_HEIGHT = 350;
 const MAX_CARD_HEIGHT = 460;
 
-const MIN_TABLET_CARD_WIDTH = 250;
-const MAX_TABLET_CARD_WIDTH = 310;
+const MIN_TABLET_CARD_WIDTH = 205;
+const MAX_TABLET_CARD_WIDTH = 235;
 
 const PHONE_HORIZONTAL_PADDING = 32;
 
@@ -48,7 +48,7 @@ export function useResponsive() {
 
   const cardWidth = isTablet
     ? clamp(
-        Math.round(cardHeight * 0.66),
+        Math.round(cardHeight * 0.48),
         MIN_TABLET_CARD_WIDTH,
         MAX_TABLET_CARD_WIDTH
       )

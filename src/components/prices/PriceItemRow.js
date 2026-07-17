@@ -12,8 +12,8 @@ export default function PriceItemRow({ item, onToggleAvailability }) {
 
       <View className="flex-1">
         <Text
-          numberOfLines={1}
-          className="font-title text-xl uppercase text-[#f2e9d0]"
+          numberOfLines={2}
+          className="font-title text-[16px] uppercase text-[#f2e9d0]"
         >
           {item.name}
         </Text>
