@@ -4,7 +4,6 @@ export const priceDashboardCategories = [
     title: "SIGNATURE COCKTAILS",
     itemCountLabel: "3 ITEMS",
     headerColorClass: "bg-[#5f7d32]",
-    layout: "half",
     items: [
       {
         id: "highball",
@@ -22,6 +21,22 @@ export const priceDashboardCategories = [
         available: true,
         Image: "",
       },
+      {
+        id: "old-e",
+        name: "OLD FASHIONED",
+        inventoryLabel: "INVENTORY: 18",
+        price: 16.5,
+        available: true,
+        Image: "",
+      },
+      {
+        id: "old-i",
+        name: "OLD FASHIONED",
+        inventoryLabel: "INVENTORY: 18",
+        price: 16.5,
+        available: true,
+        Image: "",
+      },
     ],
   },
   {
@@ -29,7 +44,6 @@ export const priceDashboardCategories = [
     title: "AFTER DINNER",
     itemCountLabel: "1 ITEM",
     headerColorClass: "bg-[#c6a21a]",
-    layout: "half",
     items: [
       {
         id: "the-flip",
@@ -46,7 +60,31 @@ export const priceDashboardCategories = [
     title: "SMALL PLATES",
     itemCountLabel: "2 ITEMS",
     headerColorClass: "bg-[#53677f]",
-    layout: "full",
+    items: [
+      {
+        id: "oysters",
+        name: "OYSTERS",
+        inventoryLabel: "MARKET PRICE",
+        price: null,
+        priceLabel: "MP",
+        available: false,
+        Image: "",
+      },
+      {
+        id: "bone-marrow",
+        name: "BONE MARROW",
+        inventoryLabel: "INVENTORY: 6",
+        price: 22,
+        available: false,
+        Image: "",
+      },
+    ],
+  },
+  {
+    id: "small-e",
+    title: "SMALL PLATES",
+    itemCountLabel: "2 ITEMS",
+    headerColorClass: "bg-[#53677f]",
     items: [
       {
         id: "oysters",

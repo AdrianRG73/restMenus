@@ -10,6 +10,7 @@
     "clear": "expo start --clear"
   },
   "dependencies": {
+    "@react-native-vector-icons/material-icons": "^13.1.2",
     "expo": "~56.0.12",
     "expo-font": "~56.0.7",
     "expo-image-picker": "~56.0.20",

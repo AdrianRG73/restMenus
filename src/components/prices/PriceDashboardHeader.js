@@ -20,7 +20,7 @@ export default function PriceDashboardHeader({
         </View>
 
         <View className="h-10 w-[320px] flex-row items-center border-2 border-[#2b241f] bg-[#171311] px-4">
-          <Text className="mr-3 font-body text-xs text-zinc-600">⌕</Text>
+          <Text className="mr-3 font-body text-2xl text-zinc-600">⌕</Text>
 
           <TextInput
             value={searchText}

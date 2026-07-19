@@ -24,7 +24,9 @@ function FormTextInput({
   multiline,
   disabled = false,
 }) {
-  const inputHeightClassName = multiline ? "h-16 py-" : "h-10 py-2";
+  const inputHeightClassName = multiline
+  ? "h-20 py-2"
+  : "h-10 py-2";
 
   return (
     <TextInput
@@ -44,7 +46,7 @@ function FormTextInput({
 export default function MenuItemForm({ selectedCategoryName, onCancel }) {
   return (
     <View>
-      <View className="flex-row gap-4">
+      <View className="py-2 flex-row gap-4">
         <View className="flex-1">
           <FormLabel>Nombre</FormLabel>
 

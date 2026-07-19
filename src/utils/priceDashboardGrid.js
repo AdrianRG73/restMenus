@@ -1,46 +1,49 @@
-export function buildPriceDashboardRows(categories) {
+const CATEGORIES_PER_ROW = 2;
+
+/**
+ * Organiza las categorías del dashboard en filas.
+ *
+ * Reglas:
+ * - Cada fila contiene como máximo dos categorías.
+ * - Las categorías se procesan de dos en dos.
+ * - Cuando la cantidad es impar, la última categoría ocupa
+ *   una fila completa.
+ *
+ * Ejemplos:
+ *
+ * 4 categorías:
+ * [categoría 1, categoría 2]
+ * [categoría 3, categoría 4]
+ *
+ * 5 categorías:
+ * [categoría 1, categoría 2]
+ * [categoría 3, categoría 4]
+ * [categoría 5]
+ */
+export function buildPriceDashboardRows(categories = []) {
   const rows = [];
-  let currentHalfRow = [];
 
-  categories.forEach((category) => {
-    if (category.layout === "full") {
-      if (currentHalfRow.length > 0) {
-        rows.push({
-          id: `row-${rows.length + 1}`,
-          type: "half-row",
-          categories: currentHalfRow,
-        });
+  for (
+    let categoryIndex = 0;
+    categoryIndex < categories.length;
+    categoryIndex += CATEGORIES_PER_ROW
+  ) {
+    const categoriesInRow = categories.slice(
+      categoryIndex,
+      categoryIndex + CATEGORIES_PER_ROW,
+    );
 
-        currentHalfRow = [];
-      }
+    const hasTwoCategories =
+      categoriesInRow.length === CATEGORIES_PER_ROW;
 
-      rows.push({
-        id: `row-${rows.length + 1}`,
-        type: "full-row",
-        categories: [category],
-      });
+    const categoryIds = categoriesInRow
+      .map((category) => category.id)
+      .join("-");
 
-      return;
-    }
-
-    currentHalfRow.push(category);
-
-    if (currentHalfRow.length === 2) {
-      rows.push({
-        id: `row-${rows.length + 1}`,
-        type: "half-row",
-        categories: currentHalfRow,
-      });
-
-      currentHalfRow = [];
-    }
-  });
-
-  if (currentHalfRow.length > 0) {
     rows.push({
-      id: `row-${rows.length + 1}`,
-      type: "half-row",
-      categories: currentHalfRow,
+      id: `price-row-${categoryIds}`,
+      type: hasTwoCategories ? "half-row" : "full-row",
+      categories: categoriesInRow,
     });
   }
 

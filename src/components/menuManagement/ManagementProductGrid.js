@@ -131,7 +131,7 @@ function ManagementProductCard({ product, onEditProduct, onDeleteProduct }) {
 
 function EmptyProductList() {
   return (
-    <View className="flex-1 items-center justify-center border-2 border-dashed border-[#2b241f] bg-[#111312] px-6">
+    <View className="flex-1 py-3 items-center justify-center border-2 border-dashed border-[#2b241f] bg-[#111312] px-6">
       <Text className="font-title text-xl uppercase text-[#f2e9d0]">
         Sin productos
       </Text>
@@ -199,6 +199,7 @@ export default function ManagementProductGrid({
 
   return (
     <FlatList
+      style={{ flex: 1 }}
       key={`management-product-grid-${columnCount}`}
       data={products}
       numColumns={columnCount}

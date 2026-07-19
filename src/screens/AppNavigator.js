@@ -19,7 +19,7 @@ export default function AppNavigator() {
 
   // Para pruebas poner !SCREENS_WITHOUT_BOTTOM_NAVIGATION
   const shouldShowBottomNavigation =
-  SCREENS_WITHOUT_BOTTOM_NAVIGATION.includes(activeScreenId);
+  !SCREENS_WITHOUT_BOTTOM_NAVIGATION.includes(activeScreenId);
 
   const handleScreenChange = useCallback((screenId) => {
     const validScreenIds = Object.values(SCREEN_IDS);
