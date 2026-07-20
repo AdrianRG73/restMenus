@@ -1,14 +1,5 @@
-import {
-  ScrollView,
-  useWindowDimensions,
-  View,
-} from "react-native";
-import {
-  useCallback,
-  useMemo,
-  useState,
-} from "react";
-
+import { View } from "react-native";
+import { useCallback, useMemo, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import ManagementCategorySidebar from "../components/menuManagement/ManagementCategorySidebar";
@@ -16,52 +7,13 @@ import ManagementProductGrid from "../components/menuManagement/ManagementProduc
 import ManagementSection from "../components/menuManagement/ManagementSection";
 import MenuItemForm from "../components/menuManagement/MenuItemForm";
 import MenuManagementHeader from "../components/menuManagement/MenuManagementHeader";
-
 import { useMenuCatalog } from "../hooks/useMenuCatalog";
 
-const FORM_HEIGHT_PERCENTAGE = 0.42;
-const MIN_FORM_PANEL_HEIGHT = 250;
-const MAX_FORM_PANEL_HEIGHT = 330;
-
 /**
- * Limita un valor para que permanezca dentro de un rango.
+ * Construye un objeto que contiene la cantidad de productos
+ * registrados en cada categoría.
  *
- * Ejemplos:
- * clamp(200, 250, 330) -> 250
- * clamp(290, 250, 330) -> 290
- * clamp(400, 250, 330) -> 330
- */
-function clamp(value, minimum, maximum) {
-  return Math.min(
-    Math.max(value, minimum),
-    maximum,
-  );
-}
-
-/**
- * Calcula la altura visible del formulario.
- *
- * Utiliza una proporción de la altura de la pantalla, pero aplica
- * límites para evitar:
- *
- * - un formulario demasiado pequeño;
- * - un formulario que cubra toda la lista de productos.
- */
-function getFormPanelHeight(screenHeight) {
-  const responsiveHeight =
-    screenHeight * FORM_HEIGHT_PERCENTAGE;
-
-  return clamp(
-    responsiveHeight,
-    MIN_FORM_PANEL_HEIGHT,
-    MAX_FORM_PANEL_HEIGHT,
-  );
-}
-
-/**
- * Genera un objeto con el número de productos por categoría.
- *
- * Resultado de ejemplo:
+ * Ejemplo:
  *
  * {
  *   breakfast: 4,
@@ -71,50 +23,39 @@ function getFormPanelHeight(screenHeight) {
  */
 function createProductCountByCategory(products) {
   return products.reduce((counts, product) => {
-    const currentCount =
-      counts[product.categoryId] ?? 0;
+    const categoryId = product.categoryId;
 
-    return {
-      ...counts,
-      [product.categoryId]: currentCount + 1,
-    };
+    counts[categoryId] = (counts[categoryId] ?? 0) + 1;
+
+    return counts;
   }, {});
 }
 
 export default function MenuManagementScreen() {
-  const { height: screenHeight } =
-    useWindowDimensions();
+  const { products, categories } = useMenuCatalog();
 
-  const { products, categories } =
-    useMenuCatalog();
-
-  const initialCategoryId =
-    categories[0]?.id ?? null;
+  const initialCategoryId = categories[0]?.id ?? null;
 
   /**
-   * Categoría seleccionada en la barra lateral.
+   * Identificador de la categoría seleccionada en la barra lateral.
    */
-  const [
-    selectedCategoryId,
-    setSelectedCategoryId,
-  ] = useState(initialCategoryId);
+  const [selectedCategoryId, setSelectedCategoryId] =
+    useState(initialCategoryId);
 
   /**
-   * El formulario comienza oculto.
+   * Controla qué contenido ocupa el panel derecho:
    *
-   * Sólo cambia a true cuando el usuario pulsa
-   * el botón "Nuevo producto".
+   * false:
+   * Se muestra el catálogo de productos.
+   *
+   * true:
+   * Se muestra únicamente el formulario de nuevo producto.
    */
-  const [
-    isNewProductFormVisible,
-    setIsNewProductFormVisible,
-  ] = useState(false);
+  const [isNewProductFormVisible, setIsNewProductFormVisible] =
+    useState(false);
 
   /**
-   * Obtiene el objeto completo de la categoría seleccionada.
-   *
-   * useMemo evita repetir la búsqueda mientras no cambien
-   * categories o selectedCategoryId.
+   * Obtiene la información completa de la categoría seleccionada.
    */
   const selectedCategory = useMemo(() => {
     return categories.find((category) => {
@@ -123,80 +64,59 @@ export default function MenuManagementScreen() {
   }, [categories, selectedCategoryId]);
 
   /**
-   * Filtra únicamente los productos pertenecientes
+   * Filtra los productos para mostrar solamente los pertenecientes
    * a la categoría seleccionada.
    */
   const visibleProducts = useMemo(() => {
     return products.filter((product) => {
-      return (
-        product.categoryId === selectedCategoryId
-      );
+      return product.categoryId === selectedCategoryId;
     });
   }, [products, selectedCategoryId]);
 
   /**
-   * Calcula los contadores utilizados en la barra lateral.
+   * Calcula los contadores mostrados dentro de la barra lateral.
    */
   const productCounts = useMemo(() => {
     return createProductCountByCategory(products);
   }, [products]);
 
   /**
-   * Altura máxima que ocupará el formulario.
-   *
-   * El resto del espacio queda disponible para el catálogo.
+   * Cambia la categoría activa.
    */
-  const formPanelHeight = useMemo(() => {
-    return getFormPanelHeight(screenHeight);
-  }, [screenHeight]);
+  const handleSelectCategory = useCallback((categoryId) => {
+    setSelectedCategoryId(categoryId);
+  }, []);
 
   /**
-   * Cambia la categoría seleccionada.
-   */
-  const handleSelectCategory = useCallback(
-    (categoryId) => {
-      setSelectedCategoryId(categoryId);
-    },
-    [],
-  );
-
-  /**
-   * Muestra el formulario.
+   * Abre el formulario de nuevo producto.
    */
   const handleStartNewProduct = useCallback(() => {
     setIsNewProductFormVisible(true);
   }, []);
 
   /**
-   * Oculta el formulario.
+   * Cierra el formulario y vuelve a mostrar el catálogo.
    *
-   * Como MenuItemForm se desmonta, sus campos también
-   * se reiniciarán al volver a abrirlo.
+   * MenuItemForm se desmonta al cerrarse, por lo que cualquier
+   * información no guardada en sus campos se elimina.
    */
-  const handleCloseNewProductForm =
-    useCallback(() => {
-      setIsNewProductFormVisible(false);
-    }, []);
+  const handleCloseNewProductForm = useCallback(() => {
+    setIsNewProductFormVisible(false);
+  }, []);
 
   /**
-   * Función provisional para editar productos.
+   * Función temporal para comenzar posteriormente la edición.
    */
-  const handleEditProduct = useCallback(
-    (product) => {
-      console.log("Editar producto:", product);
-    },
-    [],
-  );
+  const handleEditProduct = useCallback((product) => {
+    console.log("Editar producto:", product);
+  }, []);
 
   /**
-   * Función provisional para eliminar productos.
+   * Función temporal para comenzar posteriormente la eliminación.
    */
-  const handleDeleteProduct = useCallback(
-    (product) => {
-      console.log("Eliminar producto:", product);
-    },
-    [],
-  );
+  const handleDeleteProduct = useCallback((product) => {
+    console.log("Eliminar producto:", product);
+  }, []);
 
   const visibleProductCountText =
     visibleProducts.length === 1
@@ -208,13 +128,13 @@ export default function MenuManagementScreen() {
     : "Productos";
 
   /**
-   * Mientras el formulario está abierto, el botón superior
-   * permanece deshabilitado para evitar intentar abrirlo
-   * varias veces.
+   * El botón queda deshabilitado cuando:
+   *
+   * - no existe una categoría seleccionada;
+   * - el formulario ya está abierto.
    */
   const shouldDisableNewProductButton =
-    !selectedCategoryId ||
-    isNewProductFormVisible;
+    !selectedCategoryId || isNewProductFormVisible;
 
   return (
     <SafeAreaView
@@ -222,82 +142,50 @@ export default function MenuManagementScreen() {
       className="flex-1 bg-[#111312]"
     >
       <MenuManagementHeader
-        onStartNewProduct={
-          handleStartNewProduct
-        }
-        isAddButtonDisabled={
-          shouldDisableNewProductButton
-        }
+        onStartNewProduct={handleStartNewProduct}
+        isAddButtonDisabled={shouldDisableNewProductButton}
       />
 
       <View className="flex-1 flex-row">
         <ManagementCategorySidebar
           categories={categories}
-          selectedCategoryId={
-            selectedCategoryId
-          }
+          selectedCategoryId={selectedCategoryId}
           productCounts={productCounts}
-          onSelectCategory={
-            handleSelectCategory
-          }
+          onSelectCategory={handleSelectCategory}
         />
 
-        {/* Área derecha */}
+        {/* Panel derecho principal */}
         <View className="flex-1 p-4">
           {isNewProductFormVisible ? (
-            <View
-              style={{
-                height: formPanelHeight,
-              }}
-              className="mb-4"
-            >
-              <ManagementSection
-                title="Nuevo producto"
-                description="Captura la información del producto"
-                metaText="Formulario"
-                className="flex-1"
-                contentClassName="flex-1"
-              >
-                <ScrollView
-                  className="flex-1"
-                  showsVerticalScrollIndicator
-                  keyboardShouldPersistTaps="handled"
-                  contentContainerStyle={{
-                    padding: 16,
-                    paddingBottom: 24,
-                  }}
-                >
-                  <MenuItemForm
-                    selectedCategoryName={
-                      selectedCategory?.name
-                    }
-                    onCancel={
-                      handleCloseNewProductForm
-                    }
-                  />
-                </ScrollView>
-              </ManagementSection>
-            </View>
-          ) : null}
-
-          {/* Catálogo siempre visible */}
-          <ManagementSection
-            title={productSectionTitle}
-            description="Catálogo de la categoría seleccionada"
-            metaText={visibleProductCountText}
-            className="flex-1"
-            contentClassName="flex-1 p-3"
-          >
-            <ManagementProductGrid
-              products={visibleProducts}
-              onEditProduct={
-                handleEditProduct
-              }
-              onDeleteProduct={
-                handleDeleteProduct
-              }
-            />
-          </ManagementSection>
+  <ManagementSection
+    title="Nuevo producto"
+    description="Captura la información del producto"
+    metaText="Formulario"
+    className="flex-1"
+    contentClassName="flex-1"
+  >
+    <View className="flex-1 p-4">
+      <MenuItemForm
+        selectedCategoryName={selectedCategory?.name}
+        onCancel={handleCloseNewProductForm}
+      />
+    </View>
+  </ManagementSection>
+) : (
+  <ManagementSection
+    title={productSectionTitle}
+    description="Catálogo de la categoría seleccionada"
+    metaText={visibleProductCountText}
+    className="flex-1"
+    contentClassName="flex-1 p-3"
+  >
+    <ManagementProductGrid
+      products={visibleProducts}
+      onEditProduct={handleEditProduct}
+      onDeleteProduct={handleDeleteProduct}
+    />
+  </ManagementSection>
+)}
         </View>
       </View>
     </SafeAreaView>

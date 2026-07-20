@@ -1,29 +1,28 @@
-import { formatCurrency } from "../../utils/formatCurrency";
-
 import {
   FlatList,
   Image,
-  Text,
-  useWindowDimensions,
-  View,
   Pressable,
+  Text,
+  View,
 } from "react-native";
 import { useCallback, useState } from "react";
 
+import { formatCurrency } from "../../utils/formatCurrency";
+
+const PRODUCT_GRID_COLUMNS = 3;
 const GRID_GAP = 12;
 
-function getColumnCount(screenWidth) {
-  if (screenWidth >= 1180) {
-    return 4;
-  }
-
-  if (screenWidth >= 900) {
-    return 3;
-  }
-
-  return 2;
-}
-
+/**
+ * Obtiene una fuente válida para el componente Image.
+ *
+ * Admite:
+ *
+ * 1. Una URI generada por el selector de imágenes:
+ *    product.imageUri
+ *
+ * 2. Una imagen local importada con require:
+ *    product.image
+ */
 function getProductImageSource(product) {
   if (product.imageUri) {
     return {
@@ -34,23 +33,36 @@ function getProductImageSource(product) {
   return product.image ?? null;
 }
 
-function ManagementProductCard({ product, onEditProduct, onDeleteProduct }) {
+/**
+ * Representa visualmente un solo producto del catálogo.
+ */
+function ManagementProductCard({
+  product,
+  onEditProduct,
+  onDeleteProduct,
+}) {
   const imageSource = getProductImageSource(product);
   const isUnavailable = product.available === false;
 
+  /**
+   * Envía el producto completo a la pantalla principal.
+   */
   const handleEditPress = () => {
     onEditProduct?.(product);
   };
 
+  /**
+   * Envía el producto completo a la pantalla principal.
+   */
   const handleDeletePress = () => {
     onDeleteProduct?.(product);
   };
 
   return (
     <View className="h-44 overflow-hidden border-2 border-[#2b241f] bg-[#111312]">
-      {/* Contenedor relativo de la imagen */}
+      {/* Área de imagen */}
       <View className="relative h-24 border-b-2 border-[#2b241f] bg-[#0d0f0e]">
-        {/* Botones superpuestos */}
+        {/* Acciones superpuestas */}
         <View
           className="absolute right-2 top-2 z-10 flex-row gap-2"
           style={{ elevation: 5 }}
@@ -76,7 +88,6 @@ function ManagementProductCard({ product, onEditProduct, onDeleteProduct }) {
           </Pressable>
         </View>
 
-        {/* Imagen del producto */}
         {imageSource ? (
           <Image
             source={imageSource}
@@ -91,7 +102,6 @@ function ManagementProductCard({ product, onEditProduct, onDeleteProduct }) {
           </View>
         )}
 
-        {/* Capa de producto no disponible */}
         {isUnavailable ? (
           <View className="absolute inset-0 items-center justify-center bg-black/70">
             <Text className="font-button text-xs uppercase tracking-[2px] text-[#d8a808]">
@@ -101,7 +111,7 @@ function ManagementProductCard({ product, onEditProduct, onDeleteProduct }) {
         ) : null}
       </View>
 
-      {/* Información inferior */}
+      {/* Información del producto */}
       <View className="flex-1 justify-between px-3 py-2">
         <View>
           <Text
@@ -129,9 +139,13 @@ function ManagementProductCard({ product, onEditProduct, onDeleteProduct }) {
   );
 }
 
+/**
+ * Contenido mostrado cuando la categoría seleccionada
+ * no tiene productos registrados.
+ */
 function EmptyProductList() {
   return (
-    <View className="flex-1 py-3 items-center justify-center border-2 border-dashed border-[#2b241f] bg-[#111312] px-6">
+    <View className="flex-1 items-center justify-center border-2 border-dashed border-[#2b241f] bg-[#111312] px-6 py-3">
       <Text className="font-title text-xl uppercase text-[#f2e9d0]">
         Sin productos
       </Text>
@@ -143,6 +157,9 @@ function EmptyProductList() {
   );
 }
 
+/**
+ * Agrega separación vertical entre las filas de productos.
+ */
 function RowSeparator() {
   return <View style={{ height: GRID_GAP }} />;
 }
@@ -152,70 +169,103 @@ export default function ManagementProductGrid({
   onEditProduct,
   onDeleteProduct,
 }) {
-  const { width: screenWidth } = useWindowDimensions();
+  /**
+   * Ancho interior real de FlatList.
+   *
+   * No usamos el ancho completo de la pantalla porque la interfaz
+   * también contiene:
+   *
+   * - la barra lateral;
+   * - los bordes;
+   * - el padding del panel;
+   * - el padding de ManagementSection.
+   */
   const [listWidth, setListWidth] = useState(0);
 
-  const columnCount = getColumnCount(screenWidth);
+  /**
+   * Espacio total ocupado por las separaciones de tres columnas.
+   *
+   * Tres columnas tienen solamente dos espacios:
+   *
+   * [tarjeta] espacio [tarjeta] espacio [tarjeta]
+   */
+  const totalHorizontalGap =
+    GRID_GAP * (PRODUCT_GRID_COLUMNS - 1);
 
-  const availableGapsWidth = GRID_GAP * (columnCount - 1);
-
+  /**
+   * Divide el ancho utilizable exactamente entre tres tarjetas.
+   */
   const cardWidth =
-    listWidth > 0 ? (listWidth - availableGapsWidth) / columnCount : undefined;
+    listWidth > 0
+      ? (listWidth - totalHorizontalGap) /
+        PRODUCT_GRID_COLUMNS
+      : undefined;
 
+  /**
+   * Obtiene el ancho real disponible cuando FlatList termina
+   * de calcular su layout.
+   */
   const handleListLayout = useCallback((event) => {
     const measuredWidth = event.nativeEvent.layout.width;
 
-    setListWidth(measuredWidth);
+    setListWidth((currentWidth) => {
+      if (currentWidth === measuredWidth) {
+        return currentWidth;
+      }
+
+      return measuredWidth;
+    });
   }, []);
 
+  /**
+   * Renderiza una tarjeta con el ancho calculado.
+   *
+   * useCallback evita crear una función renderItem diferente
+   * en cada renderizado de la pantalla.
+   */
   const renderProduct = useCallback(
-  ({ item }) => {
-    const itemStyle = cardWidth
-      ? {
-          width: cardWidth,
-        }
-      : {
-          flex: 1,
-        };
+    ({ item }) => {
+      const itemStyle = cardWidth
+        ? {
+            width: cardWidth,
+          }
+        : {
+            flex: 1,
+          };
 
-    return (
-      <View style={itemStyle}>
-        <ManagementProductCard
-          product={item}
-          onEditProduct={onEditProduct}
-          onDeleteProduct={onDeleteProduct}
-        />
-      </View>
-    );
-  },
-  [
-    cardWidth,
-    onEditProduct,
-    onDeleteProduct,
-  ],
-);
+      return (
+        <View style={itemStyle}>
+          <ManagementProductCard
+            product={item}
+            onEditProduct={onEditProduct}
+            onDeleteProduct={onDeleteProduct}
+          />
+        </View>
+      );
+    },
+    [
+      cardWidth,
+      onEditProduct,
+      onDeleteProduct,
+    ],
+  );
 
   const isEmpty = products.length === 0;
 
   return (
     <FlatList
       style={{ flex: 1 }}
-      key={`management-product-grid-${columnCount}`}
       data={products}
-      numColumns={columnCount}
+      numColumns={PRODUCT_GRID_COLUMNS}
       keyExtractor={(product) => product.id}
       renderItem={renderProduct}
       onLayout={handleListLayout}
       showsVerticalScrollIndicator
       ItemSeparatorComponent={RowSeparator}
       ListEmptyComponent={EmptyProductList}
-      columnWrapperStyle={
-        columnCount > 1
-          ? {
-              gap: GRID_GAP,
-            }
-          : undefined
-      }
+      columnWrapperStyle={{
+        gap: GRID_GAP,
+      }}
       contentContainerStyle={
         isEmpty
           ? {
